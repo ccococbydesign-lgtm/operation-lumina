@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    MAGIC BY DESIGN - OPERATION LUMINA WEBSITE
+    
+    TO UPDATE AS YOU SELL FOUNDING AGENT SPOTS:
+    1. Scroll to bottom of file (around line 450)
+    2. Find: const SPOTS_SOLD = 0;
+    3. Change the number (0 to 1, 2, 3, etc.) as you make sales
+    4. Save file and re-upload to GitHub
+    
+    TO ADD YOUR STRIPE PAYMENT LINK:
+    1. Search for: https://buy.stripe.com/YOUR_STRIPE_LINK_HERE
+    2. Replace with your actual Stripe payment link
+    
+    TO ADD YOUR YOUTUBE VIDEO:
+    1. Search for: YOUR_VIDEO_ID
+    2. Replace with your YouTube video ID (the part after watch?v=)
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic By Design - Operation Lumina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ice-blue: #E8F4F8;
+            --deep-blue: #1A2B3D;
+            --frost-white: #FFFFFF;
+            --aurora-green: #4ECCA3;
+            --aurora-purple: #9D84B7;
+            --aurora-pink: #E8B4D9;
+            --gold-accent: #D4AF37;
+            --shadow-blue: rgba(26, 43, 61, 0.1);
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(180deg, #0A1628 0%, #1A2B3D 50%, #2C4A6B 100%);
+            color: var(--frost-white);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Northern Lights Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(78, 204, 163, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 40%, rgba(157, 132, 183, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 70%, rgba(232, 180, 217, 0.1) 0%, transparent 50%);
+            animation: aurora 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes aurora {
+            0%, 100% { opacity: 0.3; transform: translateY(0) scale(1); }
+            50% { opacity: 0.6; transform: translateY(-20px) scale(1.1); }
+        }
+
+        /* Floating Snow */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1em;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple), var(--aurora-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(78, 204, 163, 0.5);
+            letter-spacing: 3px;
+        }
+
+        .tagline {
+            font-size: 1.4em;
+            color: var(--ice-blue);
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px var(--shadow-blue);
+            animation: fadeInUp 1.2s ease-out 0.3s both;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: var(--gold-accent);
+            text-align: center;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--ice-blue);
+            font-weight: 300;
+        }
+
+        /* Video Section */
+        .video-container {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--aurora-green);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            background: var(--deep-blue);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Story Sections */
+        .story-section {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 50px 40px;
+            margin: 40px 0;
+            animation: fadeInUp 1.2s ease-out both;
+        }
+
+        .story-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: var(--aurora-green);
+            text-align: center;
+            position: relative;
+        }
+
+        .story-section h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
+            margin: 20px auto 0;
+        }
+
+        .story-section h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            margin: 30px 0 15px;
+            color: var(--aurora-purple);
+        }
+
+        .story-section p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--ice-blue);
+        }
+
+        .story-section em {
+            color: var(--aurora-pink);
+            font-style: italic;
+        }
+
+        /* Character Card */
+        .character-card {
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1));
+            border: 2px solid var(--aurora-green);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .character-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            color: var(--gold-accent);
+            margin-bottom: 10px;
+        }
+
+        .character-title {
+            font-size: 1.3em;
+            color: var(--aurora-green);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeInUp 1.4s ease-out 0.6s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple));
+            color: var(--frost-white);
+            text-decoration: none;
+            border-radius: 50px;
+            border: 2px solid var(--gold-accent);
+            box-shadow: 0 10px 30px rgba(78, 204, 163, 0.3);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(78, 204, 163, 0.5);
+            background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink));
+        }
+
+        /* Founders Grid */
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .founder-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--aurora-purple);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(157, 132, 183, 0.3);
+        }
+
+        .founder-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            color: var(--gold-accent);
+            margin-bottom: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo { font-size: 2.5em; }
+            .hero h1 { font-size: 2em; }
+            .hero-subtitle { font-size: 1.2em; }
+            .story-section h2 { font-size: 2em; }
+            .story-section p { font-size: 1.1em; }
+            .hero, .story-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Snow -->
+    <script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 5000);
+        }
+        setInterval(createSnowflake, 200);
+    </script>
+
+    <div class="container">
+        <header>
+            <div class="logo">MAGIC BY DESIGN</div>
+            <div class="tagline">Empowering Children Through Wonder</div>
+        </header>
+
+        <section class="hero">
+            <h1>Welcome to Operation Lumina</h1>
+            <p class="hero-subtitle">Where Every Child Becomes a Hero of Their Own Story</p>
+            
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <!-- Replace with your actual video embed URL -->
+                    <iframe 
+                        src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+                        title="Aurora Frost Transmission"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px; font-size: 1.1em; color: var(--aurora-pink);">
+                Watch Aurora Frost's Message from the North Pole
+            </p>
+        </section>
+
+        <section class="story-section">
+            <h2>Meet Aurora Frost</h2>
+            
+            <div class="character-card">
+                <div class="character-name">Aurora Frost</div>
+                <div class="character-title">Head of North Pole Security & Guardian of Children's Potential</div>
+                
+                <p>Aurora Frost is a water elf whose journey mirrors the transformation she inspires in children everywhere. Once focused solely on surveillance and judgment, Aurora's perspective shifted dramatically when a child taught her a profound truth: <em>"You're not judging the action, you're judging the intent."</em></p>
+
+                <p>This revelation transformed Aurora from a guardian watching for mistakes into a champion celebrating growth. She realized that children aren't defined by their struggles, but by their courage to learn and grow from them.</p>
+
+                <h3>The Birth of Operation Lumina</h3>
+                <p>Now serving as Head of North Pole Security, Aurora has revolutionized the North Pole's approach to helping children thrive. She created Operation Lumina, replacing outdated "naughty lists" with an empowerment-based system that recognizes every misstep as an opportunity for growth.</p>
+
+                <p>Through her innovative star collection system, children complete "Redemption Opportunities" that transform challenges into achievements. Parents become partners in transmitting this magic directly to the North Pole, creating a collaborative journey of growth and celebration.</p>
+
+                <p>Aurora believes every child has the potential to be a hero of their own story. With her Field Kits and digital guidance, she equips families with the tools to turn everyday moments into extraordinary adventures in character development.</p>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <h2>Our Founders' Story</h2>
+            
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <div class="founder-name">Coryn</div>
+                    <p>With a background in sustainable interior design and a passion for creating meaningful experiences, Coryn brings technical innovation and operational excellence to Magic By Design. As a parent, Coryn understands the daily challenges families face and the magic that happens when we meet children where they are with empathy and creativity.</p>
+                    <p>Coryn's vision combines environmental consciousness with child empowerment, creating systems that help children see themselves as capable agents of positive change in their own lives and the world around them.</p>
+                </div>
+                
+                <div class="founder-card">
+                    <div class="founder-name">Cynarra</div>
+                    <p>Cynarra's journey as an entrepreneur and parent fuels her commitment to creating tools that transform family dynamics from conflict to collaboration. She believes that every child deserves to feel seen, valued, and empowered to grow at their own pace.</p>
+                    <p>Through Magic By Design, Cynarra channels her business acumen and deep empathy into creating experiences that celebrate children's inherent worth while supporting their journey toward becoming their best selves.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 30px; background: rgba(212, 175, 55, 0.1); border-radius: 15px; border: 1px solid var(--gold-accent);">
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--gold-accent); margin-bottom: 20px; text-align: center;">Our Mission</h3>
+                <p style="text-align: center; font-size: 1.2em; line-height: 1.8;">Together, Coryn and Cynarra founded Magic By Design on a simple but powerful premise: children thrive when they're treated as the heroes of their own stories. Operation Lumina represents their shared commitment to replacing judgment with empowerment, surveillance with support, and punishment with partnership.</p>
+                <p style="text-align: center; font-size: 1.2em; line-height: 1.8; margin-top: 20px;">Through CocynD LLC, they're building a family of "By Design" brands that bring intentionality, creativity, and empowerment to every aspect of family life.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 2.5em; color: var(--aurora-green); margin-bottom: 20px;">
+                Join Operation Lumina
+            </h2>
+            
+            <!-- Founding Agent Limit Banner -->
+            <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(232, 180, 217, 0.2)); border: 2px solid var(--gold-accent); border-radius: 15px; padding: 25px; margin: 30px auto; max-width: 600px;">
+                <div style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--gold-accent); margin-bottom: 15px;">
+                    🌟 LIMITED EDITION FOUNDING AGENT KITS 🌟
+                </div>
+                <div style="font-size: 1.4em; color: var(--frost-white); margin-bottom: 10px;">
+                    Only <span id="spotsRemaining" style="color: var(--aurora-pink); font-size: 1.5em; font-weight: bold;">50</span> Kits Will Ever Be Made
+                </div>
+                <div style="font-size: 1.1em; color: var(--ice-blue); margin-bottom: 15px;">
+                    <span id="spotsTaken" style="color: var(--aurora-green); font-weight: bold;">0</span> Claimed • <span id="spotsLeft" style="color: var(--star-yellow); font-weight: bold;">50</span> Remaining
+                </div>
+                <div style="font-size: 0.95em; color: var(--aurora-purple); font-style: italic;">
+                    Each includes EXCLUSIVE Aurora Frost doll - Never to be released again
+                </div>
+            </div>
+
+            <p style="font-size: 1.3em; margin-bottom: 30px; color: var(--ice-blue); max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                Own a piece of magic. Become a <strong>Founding Agent</strong> and receive the exclusive Aurora Frost Limited Edition doll with your complete Field Kit.
+            </p>
+
+            <!-- Aurora Doll Showcase -->
+            <div style="background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1)); border: 2px solid var(--aurora-green); border-radius: 20px; padding: 40px; margin: 40px auto; max-width: 900px;">
+                <h3 style="font-family: 'Cinzel', serif; font-size: 2.2em; color: var(--gold-accent); margin-bottom: 25px; text-align: center;">✨ Includes Limited Edition Aurora Frost Doll ✨</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; margin-bottom: 30px;">
+                    <div>
+                        <p style="font-size: 1.2em; color: var(--ice-blue); line-height: 1.8; margin-bottom: 20px;">
+                            Meet Aurora Frost in her most exclusive form. The Founding Agent doll features unique details that will NEVER be reproduced:
+                        </p>
+                        <ul style="font-size: 1.1em; color: var(--frost-white); line-height: 2; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 10px;">⭐ Gold foil accents on uniform (exclusive)</li>
+                            <li style="margin-bottom: 10px;">⭐ Founding Agent badge emblem</li>
+                            <li style="margin-bottom: 10px;">⭐ Hand-numbered certificate of authenticity</li>
+                            <li style="margin-bottom: 10px;">⭐ Premium display stand engraved "1 of 50"</li>
+                            <li style="margin-bottom: 10px;">⭐ Collectible character story card</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 5em; margin-bottom: 15px;">🎁</div>
+                        <p style="font-size: 0.9em; color: var(--aurora-purple); font-style: italic;">
+                            Professional product photos coming soon!<br>This doll will be a treasured collector's item.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; padding: 20px; background: rgba(212, 175, 55, 0.15); border-radius: 10px;">
+                    <p style="font-size: 1.3em; color: var(--gold-accent); font-weight: bold; margin-bottom: 10px;">
+                        💎 True Collectible Value 💎
+                    </p>
+                    <p style="font-size: 1.1em; color: var(--ice-blue);">
+                        After the first 50 sell, this exact doll with these exclusive details will NEVER be available again. Future Aurora dolls (if released) will have standard design only.
+                    </p>
+                </div>
+            </div>
+
+            <!-- What's Included -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 30px; margin: 30px auto; max-width: 700px; text-align: left;">
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--aurora-green); margin-bottom: 20px; text-align: center;">Complete Founding Agent Field Kit</h3>
+                
+                <div style="font-size: 1.15em; color: var(--ice-blue); line-height: 2;">
+                    <div style="margin-bottom: 12px;">✨ <strong>Limited Edition Aurora Frost Doll</strong> (11" collectible with exclusive details)</div>
+                    <div style="margin-bottom: 12px;">⭐ <strong>Magnetic Star Tracker</strong> (interactive display piece)</div>
+                    <div style="margin-bottom: 12px;">🃏 <strong>30 Mission Cards</strong> (starter deck with expansion compatibility)</div>
+                    <div style="margin-bottom: 12px;">💫 <strong>25 Gold Star Magnets</strong> (progress tracking tokens)</div>
+                    <div style="margin-bottom: 12px;">🎖️ <strong>Field Agent Badge</strong> (clip-on credential)</div>
+                    <div style="margin-bottom: 12px;">📜 <strong>Numbered Certificate</strong> (signed, 1-50 only)</div>
+                    <div style="margin-bottom: 12px;">📱 <strong>Digital App Access</strong> (iOS & Android, immediate)</div>
+                    <div style="margin-bottom: 12px;">📖 <strong>Transmission Guide</strong> (parent handbook)</div>
+                    <div style="margin-bottom: 12px;">👤 <strong>Display Stand</strong> (engraved with agent number)</div>
+                    <div style="margin-bottom: 12px;">💼 <strong>Premium Gift Box</strong> (magnetic closure, collectible packaging)</div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; padding: 25px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid var(--gold-accent);">
+                    <div style="font-size: 1.3em; color: var(--star-yellow); margin-bottom: 10px;">
+                        Regular Price After Founding Agents: <span style="text-decoration: line-through;">$197</span>
+                    </div>
+                    <div style="font-family: 'Cinzel', serif; font-size: 2.5em; color: var(--gold-accent); margin-bottom: 10px;">
+                        Founding Agent Price: $147
+                    </div>
+                    <div style="font-size: 1.1em; color: var(--aurora-purple); margin-bottom: 15px; font-style: italic;">
+                        You save $50 + receive exclusive doll that will never be available again
+                    </div>
+                    <div style="font-size: 0.95em; color: var(--ice-blue);">
+                        Ships January 2026 | Free shipping on all Founding Agent orders
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div id="ctaButtons">
+                <a href="https://buy.stripe.com/YOUR_STRIPE_LINK_HERE" class="cta-button" id="foundingAgentBtn">
+                    Secure Your Limited Edition Kit - $147
+                </a>
+                <div style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 15px; margin-bottom: 20px;">
+                    Founding Agent #<span id="nextAgentNumber">1</span> • Only <span id="spotsLeftBottom">50</span> Available
+                </div>
+                <a href="operation-lumina-app.html" class="cta-button" style="background: linear-gradient(135deg, var(--aurora-purple), var(--gold-accent)); margin-top: 15px;">
+                    Preview the App (Free)
+                </a>
+            </div>
+
+            <!-- Sold Out Message (Hidden by default) -->
+            <div id="soldOutMessage" style="display: none; background: linear-gradient(135deg, rgba(78, 204, 163, 0.2), rgba(157, 132, 183, 0.2)); border: 2px solid var(--aurora-green); border-radius: 15px; padding: 40px; margin: 30px auto; max-width: 600px;">
+                <div style="font-size: 3em; margin-bottom: 20px;">🎉✨🌟</div>
+                <h3 style="font-family: 'Cinzel', serif; font-size: 2.2em; color: var(--gold-accent); margin-bottom: 20px;">
+                    LIMITED EDITION KITS: SOLD OUT!
+                </h3>
+                <p style="font-size: 1.3em; color: var(--ice-blue); margin-bottom: 25px;">
+                    Thank you to our incredible first 50 Founding Agents!
+                </p>
+                <p style="font-size: 1.15em; color: var(--aurora-purple); margin-bottom: 20px;">
+                    The exclusive Aurora Frost doll and numbered kits are no longer available.
+                </p>
+                <p style="font-size: 1.1em; color: var(--ice-blue); margin-bottom: 30px;">
+                    Join our waitlist to be notified when standard Operation Lumina kits become available (without exclusive doll - $97).
+                </p>
+                <a href="#waitlist" class="cta-button" style="background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink));">
+                    Join the Waitlist
+                </a>
+            </div>
+        </section>
+
+        <script>
+            // Update spot counter (manually change these numbers as you sell)
+            const TOTAL_SPOTS = 50;
+            const SPOTS_SOLD = 0; // UPDATE THIS NUMBER AS YOU SELL!
+
+            function updateSpotCounter() {
+                const spotsRemaining = TOTAL_SPOTS - SPOTS_SOLD;
+                
+                document.getElementById('spotsRemaining').textContent = TOTAL_SPOTS;
+                document.getElementById('spotsTaken').textContent = SPOTS_SOLD;
+                document.getElementById('spotsLeft').textContent = spotsRemaining;
+                document.getElementById('spotsLeftBottom').textContent = spotsRemaining;
+                document.getElementById('nextAgentNumber').textContent = SPOTS_SOLD + 1;
+
+                // Show sold out message if all spots taken
+                if (SPOTS_SOLD >= TOTAL_SPOTS) {
+                    document.getElementById('ctaButtons').style.display = 'none';
+                    document.getElementById('soldOutMessage').style.display = 'block';
+                    document.querySelector('.cta-section h2').textContent = 'Founding Agents Program';
+                }
+            }
+
+            updateSpotCounter();
+        </script>
+    </div>
+</body>
+</html>
