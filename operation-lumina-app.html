@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation Lumina - Field Agent App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ice-blue: #E8F4F8;
+            --deep-blue: #1A2B3D;
+            --frost-white: #FFFFFF;
+            --aurora-green: #4ECCA3;
+            --aurora-purple: #9D84B7;
+            --aurora-pink: #E8B4D9;
+            --gold-accent: #D4AF37;
+            --star-yellow: #FFD700;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(180deg, #0A1628 0%, #1A2B3D 50%, #2C4A6B 100%);
+            color: var(--frost-white);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .app-header {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .app-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .agent-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--gold-accent);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .agent-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            color: var(--gold-accent);
+            margin-bottom: 10px;
+        }
+
+        .star-counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        .star-icon {
+            color: var(--star-yellow);
+            font-size: 2.5em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .card h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            color: var(--aurora-green);
+            margin-bottom: 15px;
+        }
+
+        .opportunity-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--aurora-purple);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .opportunity-item:hover {
+            background: rgba(78, 204, 163, 0.1);
+            transform: translateX(5px);
+        }
+
+        .opportunity-item.completed {
+            border-color: var(--aurora-green);
+            background: rgba(78, 204, 163, 0.15);
+        }
+
+        .opportunity-title {
+            font-size: 1.2em;
+            color: var(--ice-blue);
+            margin-bottom: 5px;
+        }
+
+        .opportunity-reward {
+            color: var(--star-yellow);
+            font-size: 0.9em;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple));
+            color: var(--frost-white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .complete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.3);
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .transmission-section {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(157, 132, 183, 0.1));
+            border: 2px solid var(--gold-accent);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .transmit-btn {
+            background: linear-gradient(135deg, var(--gold-accent), var(--aurora-pink));
+            color: var(--frost-white);
+            border: 2px solid var(--frost-white);
+            padding: 15px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .transmit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--aurora-purple);
+            border-radius: 8px;
+            color: var(--frost-white);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--aurora-green);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1A2B3D, #2C4A6B);
+            border: 2px solid var(--aurora-green);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); }
+            to { transform: scale(1); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .celebration {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--aurora-green);
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            color: var(--aurora-pink);
+        }
+
+        .mission-calendar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .date-label {
+            color: var(--aurora-purple);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <a href="/magic-by-design.html" class="back-link">← Back to Magic By Design</a>
+            <div class="app-logo">OPERATION LUMINA</div>
+            <div style="color: var(--ice-blue); font-size: 1.1em;">Field Agent Portal</div>
+        </div>
+
+        <div class="agent-badge">
+            <div class="agent-name" id="agentName">Field Agent</div>
+            <div style="color: var(--aurora-purple); font-style: italic;">Security Clearance: Active</div>
+            
+            <div class="star-counter">
+                <span class="star-icon">⭐</span>
+                <span id="starCount" style="color: var(--star-yellow); font-family: 'Cinzel', serif;">0</span>
+                <span style="color: var(--ice-blue);">Stars Collected</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Today's Redemption Opportunities</h2>
+            <div class="mission-calendar">
+                <div class="date-label">Mission Date: <span id="currentDate"></span></div>
+            </div>
+            <div id="opportunitiesList"></div>
+        </div>
+
+        <div class="transmission-section">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--gold-accent); margin-bottom: 15px;">
+                🎄 Transmit to North Pole 🎄
+            </h2>
+            <p style="margin-bottom: 20px; color: var(--ice-blue);">
+                Ready to send your earned stars to Aurora Frost?
+            </p>
+            <button class="transmit-btn" onclick="transmitStars()">
+                Transmit Magic ✨
+            </button>
+        </div>
+
+        <!-- Setup Modal -->
+        <div id="setupModal" class="modal" style="display: flex;">
+            <div class="modal-content">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--aurora-green); margin-bottom: 20px;">
+                    Welcome, Field Agent!
+                </h2>
+                <p style="margin-bottom: 20px;">Enter your agent name to begin your mission:</p>
+                <input type="text" id="agentNameInput" class="input-field" placeholder="Your Name">
+                <button class="complete-btn" onclick="setupAgent()">Begin Mission</button>
+            </div>
+        </div>
+
+        <!-- Completion Modal -->
+        <div id="completionModal" class="modal">
+            <div class="modal-content">
+                <div class="celebration">⭐✨🎉</div>
+                <h2 style="font-family: 'Cinzel', serif; color: var(--aurora-green); margin-bottom: 20px;">
+                    Mission Complete!
+                </h2>
+                <p id="completionMessage" style="font-size: 1.2em; margin-bottom: 20px;"></p>
+                <button class="complete-btn" onclick="closeModal()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Transmission Success Modal -->
+        <div id="transmissionModal" class="modal">
+            <div class="modal-content">
+                <div class="celebration">🎄✨🎅</div>
+                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-accent); margin-bottom: 20px;">
+                    Transmission Successful!
+                </h2>
+                <p style="font-size: 1.2em; margin-bottom: 20px;">
+                    Your stars have been received at the North Pole!
+                </p>
+                <p style="color: var(--aurora-pink); margin-bottom: 20px;">
+                    Aurora Frost is celebrating your growth! 🌟
+                </p>
+                <button class="complete-btn" onclick="closeModal()">Amazing!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample redemption opportunities
+        const opportunities = [
+            {
+                id: 1,
+                title: "Help with a household task without being asked",
+                stars: 2,
+                completed: false
+            },
+            {
+                id: 2,
+                title: "Show kindness to a sibling or friend",
+                stars: 2,
+                completed: false
+            },
+            {
+                id: 3,
+                title: "Complete homework on time",
+                stars: 1,
+                completed: false
+            },
+            {
+                id: 4,
+                title: "Practice patience when frustrated",
+                stars: 3,
+                completed: false
+            },
+            {
+                id: 5,
+                title: "Clean up after yourself",
+                stars: 1,
+                completed: false
+            },
+            {
+                id: 6,
+                title: "Tell the truth even when it's hard",
+                stars: 3,
+                completed: false
+            }
+        ];
+
+        let agentData = {
+            name: '',
+            totalStars: 0,
+            opportunities: [...opportunities]
+        };
+
+        // Load saved data
+        function loadData() {
+            const saved = localStorage.getItem('operationLuminaData');
+            if (saved) {
+                agentData = JSON.parse(saved);
+                document.getElementById('setupModal').style.display = 'none';
+            }
+        }
+
+        // Save data
+        function saveData() {
+            localStorage.setItem('operationLuminaData', JSON.stringify(agentData));
+        }
+
+        // Setup agent
+        function setupAgent() {
+            const nameInput = document.getElementById('agentNameInput').value.trim();
+            if (nameInput) {
+                agentData.name = nameInput;
+                document.getElementById('setupModal').style.display = 'none';
+                saveData();
+                renderApp();
+            }
+        }
+
+        // Render app
+        function renderApp() {
+            // Update agent name
+            document.getElementById('agentName').textContent = `Field Agent ${agentData.name}`;
+            
+            // Update star count
+            document.getElementById('starCount').textContent = agentData.totalStars;
+            
+            // Update current date
+            const today = new Date();
+            document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Render opportunities
+            const list = document.getElementById('opportunitiesList');
+            list.innerHTML = agentData.opportunities.map(opp => `
+                <div class="opportunity-item ${opp.completed ? 'completed' : ''}" id="opp-${opp.id}">
+                    <div class="opportunity-title">
+                        ${opp.completed ? '✅ ' : ''}${opp.title}
+                    </div>
+                    <div class="opportunity-reward">⭐ ${opp.stars} Star${opp.stars > 1 ? 's' : ''}</div>
+                    ${!opp.completed ? `
+                        <button class="complete-btn" onclick="completeOpportunity(${opp.id})">
+                            Complete Mission
+                        </button>
+                    ` : '<div style="color: var(--aurora-green); margin-top: 10px;">Mission Accomplished!</div>'}
+                </div>
+            `).join('');
+        }
+
+        // Complete opportunity
+        function completeOpportunity(id) {
+            const opp = agentData.opportunities.find(o => o.id === id);
+            if (opp && !opp.completed) {
+                opp.completed = true;
+                agentData.totalStars += opp.stars;
+                saveData();
+                
+                // Show completion modal
+                document.getElementById('completionMessage').textContent = 
+                    `You earned ${opp.stars} star${opp.stars > 1 ? 's' : ''}! Great work, Agent ${agentData.name}!`;
+                document.getElementById('completionModal').style.display = 'flex';
+                
+                renderApp();
+            }
+        }
+
+        // Transmit stars
+        function transmitStars() {
+            if (agentData.totalStars > 0) {
+                document.getElementById('transmissionModal').style.display = 'flex';
+                // In a real app, this would send data to server
+                console.log('Transmitting', agentData.totalStars, 'stars to North Pole');
+            } else {
+                alert('Complete some missions first to earn stars!');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('completionModal').style.display = 'none';
+            document.getElementById('transmissionModal').style.display = 'none';
+        }
+
+        // Initialize
+        loadData();
+        if (agentData.name) {
+            renderApp();
+        }
+    </script>
+</body>
+</html>
