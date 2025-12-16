@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    MAGIC BY DESIGN - OPERATION LUMINA WEBSITE
+    UPDATED WITH MOBILE OPTIMIZATION & VOICE-OVER FEATURES
+    
+    TO UPDATE AS YOU SELL FOUNDING AGENT SPOTS:
+    1. Scroll to bottom of file
+    2. Find: const SPOTS_SOLD = 0;
+    3. Change the number as you make sales
+    4. Save and re-upload
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Magic By Design - Operation Lumina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght:400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ice-blue: #E8F4F8;
+            --deep-blue: #1A2B3D;
+            --frost-white: #FFFFFF;
+            --aurora-green: #4ECCA3;
+            --aurora-purple: #9D84B7;
+            --aurora-pink: #E8B4D9;
+            --gold-accent: #D4AF37;
+            --shadow-blue: rgba(26, 43, 61, 0.1);
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(180deg, #0A1628 0%, #1A2B3D 50%, #2C4A6B 100%);
+            background-attachment: fixed;
+            color: var(--frost-white);
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Northern Lights Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(78, 204, 163, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 40%, rgba(157, 132, 183, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 70%, rgba(232, 180, 217, 0.1) 0%, transparent 50%);
+            animation: aurora 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes aurora {
+            0%, 100% { opacity: 0.3; transform: translateY(0) scale(1); }
+            50% { opacity: 0.6; transform: translateY(-20px) scale(1.1); }
+        }
+
+        /* Floating Snow */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1em;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* AUDIO PLAYER STYLES */
+        .audio-section {
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1));
+            border: 2px solid var(--aurora-green);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .listen-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(78, 204, 163, 0.4);
+            margin: 10px 0;
+        }
+
+        .listen-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(78, 204, 163, 0.6);
+        }
+
+        .listen-button:active {
+            transform: translateY(0);
+        }
+
+        .character-indicator {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            color: var(--aurora-pink);
+        }
+
+        /* EXPANDABLE SECTIONS */
+        .expandable-section {
+            margin: 20px 0;
+        }
+
+        .expand-toggle {
+            background: rgba(78, 204, 163, 0.15);
+            border: 2px solid var(--aurora-green);
+            color: var(--aurora-green);
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin: 15px 0;
+        }
+
+        .expand-toggle:hover {
+            background: rgba(78, 204, 163, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+            padding: 0 20px;
+        }
+
+        .expandable-content.active {
+            max-height: 2000px;
+            padding: 25px 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            color: var(--gold-accent);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.4em;
+            color: var(--aurora-green);
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3em;
+            color: var(--gold-accent);
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.6em;
+            color: var(--aurora-pink);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Video Container */
+        .video-container {
+            max-width: 800px;
+            margin: 40px auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Story Sections */
+        .story-section {
+            background: linear-gradient(135deg, rgba(26, 43, 61, 0.95), rgba(10, 22, 40, 0.95));
+            padding: 60px 30px;
+            margin: 50px 0;
+            border-radius: 20px;
+            border-top: 3px solid var(--aurora-green);
+            border-bottom: 3px solid var(--aurora-purple);
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .story-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            color: var(--gold-accent);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .story-section p {
+            font-size: 1.25em;
+            line-height: 2;
+            margin-bottom: 25px;
+            color: var(--ice-blue);
+        }
+
+        /* Mission Features */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1));
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            border-color: var(--aurora-green);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(78, 204, 163, 0.3);
+        }
+
+        .feature-card h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-accent);
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple));
+            color: white;
+            padding: 20px 50px;
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(78, 204, 163, 0.4);
+            margin: 20px 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(78, 204, 163, 0.6);
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            text-align: center;
+            font-size: 2.5em;
+            color: var(--aurora-pink);
+            margin: 30px 0;
+            font-family: 'Cinzel', serif;
+        }
+
+        .countdown-numbers {
+            font-size: 1.5em;
+            color: var(--gold-accent);
+            letter-spacing: 3px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 2px solid var(--aurora-green);
+            color: var(--ice-blue);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MOBILE RESPONSIVE IMPROVEMENTS */
+        @media (max-width: 768px) {
+            body {
+                line-height: 1.9;
+                font-size: 17px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            header {
+                padding: 30px 15px;
+            }
+
+            .logo {
+                font-size: 2.2em;
+            }
+
+            .tagline {
+                font-size: 1.15em;
+                margin-top: 15px;
+            }
+
+            .hero {
+                padding: 50px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+                line-height: 1.3;
+                margin-bottom: 25px;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3em;
+                line-height: 1.5;
+                margin-bottom: 30px;
+            }
+
+            .story-section {
+                padding: 40px 25px;
+                margin: 35px 0;
+            }
+
+            .story-section h2 {
+                font-size: 1.9em;
+                line-height: 1.3;
+                margin-bottom: 25px;
+            }
+
+            .story-section p {
+                font-size: 1.15em;
+                line-height: 1.9;
+                margin-bottom: 25px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                margin: 30px 0;
+            }
+
+            .feature-card {
+                padding: 25px 20px;
+            }
+
+            .feature-card h3 {
+                font-size: 1.4em;
+            }
+
+            .feature-card p {
+                font-size: 1.1em;
+            }
+
+            .cta-button {
+                padding: 18px 35px;
+                font-size: 1.2em;
+                margin: 15px 5px;
+                display: block;
+                width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+
+            .listen-button {
+                padding: 15px 25px;
+                font-size: 1.05em;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .audio-section {
+                padding: 25px 20px;
+                margin: 25px 0;
+            }
+
+            .expandable-content {
+                padding: 0 10px;
+            }
+
+            .expandable-content.active {
+                padding: 20px 10px;
+            }
+
+            .countdown {
+                font-size: 1.8em;
+            }
+
+            .countdown-numbers {
+                font-size: 1.3em;
+            }
+
+            /* Better touch targets */
+            button, .expand-toggle {
+                min-height: 48px;
+            }
+
+            /* More breathing room between sections */
+            section {
+                margin: 40px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.7em;
+            }
+
+            .story-section h2 {
+                font-size: 1.6em;
+            }
+
+            .cta-button {
+                padding: 16px 30px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Snow -->
+    <script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 5000);
+        }
+        setInterval(createSnowflake, 200);
+    </script>
+
+    <div class="container">
+        <header>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="Operation_Lumina_Logo.png" alt="Operation Lumina - The Elf Redemption Mission" style="max-width: 600px; width: 90%; height: auto; margin: 0 auto; filter: drop-shadow(0 10px 30px rgba(78, 204, 163, 0.4)); border-radius: 30px;">
+            </div>
+            <div class="tagline">Powered by Magic By Design</div>
+        </header>
+
+        <section class="hero">
+            <h1>Welcome to Operation Lumina</h1>
+            <p class="hero-subtitle">Where Every Child Becomes a Hero of Their Own Story</p>
+            
+            <div class="video-container">
+                <img 
+                    src="operation-lumina-hero.jpg" 
+                    alt="Operation Lumina - Aurora Frost and Child at North Pole" 
+                    style="width: 100%; height: auto; border-radius: 15px;"
+                >
+            </div>
+            <p style="text-align: center; margin-top: 25px; font-size: 1.15em; color: var(--aurora-pink); line-height: 1.6;">
+                Aurora Frost presents Operation Lumina: Where Intent Matters Over Action
+            </p>
+        </section>
+
+        <!-- Aurora's Transmission with Audio -->
+        <section class="story-section">
+            <span class="character-indicator">🎧 Aurora Frost Speaking</span>
+            <h2>A Message from Aurora Frost</h2>
+            <p style="font-size: 1.3em; color: var(--aurora-pink); font-style: italic; text-align: center;">
+                Head of North Pole Security
+            </p>
+
+            <!-- Audio Player Section -->
+            <div class="audio-section">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <p style="font-size: 1.2em; color: var(--aurora-green); margin-bottom: 15px;">
+                        🎙️ Listen to Aurora's Message
+                    </p>
+                    <button class="listen-button" onclick="alert('Audio file would play here! Record Aurora\'s voice reading this message.')">
+                        ▶️ Play Aurora's Voice Message
+                    </button>
+                </div>
+
+                <!-- Expandable Transcript -->
+                <div class="expandable-section">
+                    <button class="expand-toggle" onclick="toggleSection('aurora-message')">
+                        📖 Read the Message
+                        <span id="aurora-message-icon">▼</span>
+                    </button>
+                    <div class="expandable-content" id="aurora-message">
+                        <p>"Greetings, parents and guardians of extraordinary children.</p>
+                        
+                        <p>I am Aurora Frost, Head of North Pole Security. For decades, I watched over children through surveillance—a cold, mechanical approach that judged every action. But I discovered something that changed everything: <strong>intent matters more than action</strong>.</p>
+
+                        <p>That's why I founded Operation Lumina—a revolutionary program that empowers children to become agents of their own growth, not subjects of surveillance.</p>
+
+                        <p>In Operation Lumina, there is no 'naughty list.' Instead, we celebrate every attempt, every intention, every small step toward kindness, courage, and growth. When children understand their intent, they unlock their true potential.</p>
+
+                        <p>I invite your family to join this movement. Together, we'll show the world that empowerment beats surveillance every time."</p>
+
+                        <p style="text-align: right; margin-top: 25px; color: var(--aurora-green); font-style: italic;">
+                            — Aurora Frost<br>
+                            Head of North Pole Security<br>
+                            Founder, Operation Lumina
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Is Operation Lumina -->
+        <section class="story-section">
+            <h2>What Is Operation Lumina?</h2>
+            
+            <!-- Audio Section -->
+            <div class="audio-section">
+                <button class="listen-button" onclick="alert('Play Aurora explaining Operation Lumina')">
+                    🎧 Listen to Aurora Explain
+                </button>
+            </div>
+
+            <div class="expandable-section">
+                <button class="expand-toggle" onclick="toggleSection('what-is-section')">
+                    📖 Read More About Operation Lumina
+                    <span id="what-is-section-icon">▼</span>
+                </button>
+                <div class="expandable-content" id="what-is-section">
+                    <p>Operation Lumina is a premium children's empowerment program that transforms the traditional "naughty or nice" paradigm into a mission-based journey of self-discovery and growth.</p>
+
+                    <p>Your child becomes a Founding Agent—one of only 50 children worldwide—and receives:</p>
+
+                    <p><strong>🌟 A Physical Field Kit containing:</strong></p>
+                    <p>• 30 premium mission cards across 7 categories of character development<br>
+                    • A beautiful 3D star vessel that fills with light as they complete missions<br>
+                    • Their official Founding Agent badge and number<br>
+                    • Access to the exclusive digital app with QR code scanning</p>
+
+                    <p><strong>📱 Digital App Integration featuring:</strong></p>
+                    <p>• Real-time mission tracking and star progress<br>
+                    • QR code scanning for mission completion<br>
+                    • Direct messages from Aurora Frost<br>
+                    • Badge collection and achievements<br>
+                    • Parent portal for complete oversight</p>
+
+                    <p><strong>💝 The Revolutionary Philosophy:</strong></p>
+                    <p>We celebrate intent over action. If your child attempts a mission with genuine intention—even if it doesn't go perfectly—they receive full credit. This builds resilience, growth mindset, and intrinsic motivation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Seven Mission Categories -->
+        <section class="story-section">
+            <span class="character-indicator">🎧 Featuring All Three Characters</span>
+            <h2>The Seven Mission Categories</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px;">
+                Each mission features voice guidance from Aurora Frost, Wrangler Jack, or Aiyana
+            </p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>❤️ Kindness & Empathy</h3>
+                    <p>Learn to recognize emotions in others and respond with compassion</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by Aurora Frost
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>💪 Responsibility & Courage</h3>
+                    <p>Build confidence through age-appropriate challenges and ownership</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by Aurora Frost
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🌱 Growth Mindset</h3>
+                    <p>Embrace mistakes as learning opportunities and celebrate effort</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by Aurora Frost
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>👨‍👩‍👧 Family Connection</h3>
+                    <p>Strengthen bonds through meaningful interactions and shared experiences</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by Aurora Frost
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🌍 Environmental Stewardship</h3>
+                    <p>Develop respect for nature and understanding of conservation</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by Wrangler Jack
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎨 Creativity & Joy</h3>
+                    <p>Express yourself through art, storytelling, and imagination</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by Aiyana
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🤝 Community Impact</h3>
+                    <p>Make a positive difference in your neighborhood and beyond</p>
+                    <p style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 10px;">
+                        🎙️ Guided by All Three Characters
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meet Your Guides with Voice-Overs -->
+        <section class="story-section">
+            <h2>Meet Your Guides</h2>
+
+            <!-- Aurora Frost -->
+            <div style="margin: 40px 0; padding: 30px; background: rgba(78, 204, 163, 0.05); border-radius: 15px; border-left: 5px solid var(--aurora-green);">
+                <h3 style="color: var(--aurora-green); font-size: 1.8em; margin-bottom: 15px;">
+                    🧊 Aurora Frost
+                </h3>
+                <p style="font-style: italic; color: var(--aurora-pink); margin-bottom: 20px;">
+                    Head of North Pole Security & Founder of Operation Lumina
+                </p>
+                
+                <div class="audio-section">
+                    <button class="listen-button" onclick="alert('Play Aurora introducing herself')">
+                        🎧 Listen to Aurora's Introduction
+                    </button>
+                </div>
+
+                <div class="expandable-section">
+                    <button class="expand-toggle" onclick="toggleSection('aurora-bio')">
+                        📖 Read Aurora's Story
+                        <span id="aurora-bio-icon">▼</span>
+                    </button>
+                    <div class="expandable-content" id="aurora-bio">
+                        <p>Once the most advanced surveillance agent at the North Pole, Aurora spent decades watching children through screens, categorizing every action as "naughty" or "nice." But her transformation began when she saved a young child from drowning—an experience that awakened her empathy and led her to question everything she knew about judgment and observation.</p>
+
+                        <p>Aurora realized that watching intent matters more than judging actions. She founded Operation Lumina to empower children rather than surveil them. Now she guides young agents through missions of kindness, courage, and growth—celebrating every attempt, regardless of the outcome.</p>
+
+                        <p style="color: var(--aurora-green); margin-top: 20px;">
+                            <strong>Aurora reads missions in:</strong> Kindness & Empathy, Responsibility & Courage, Growth Mindset, and Family Connection
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wrangler Jack -->
+            <div style="margin: 40px 0; padding: 30px; background: rgba(157, 132, 183, 0.05); border-radius: 15px; border-left: 5px solid var(--aurora-purple);">
+                <h3 style="color: var(--aurora-purple); font-size: 1.8em; margin-bottom: 15px;">
+                    🤠 Wrangler Jack
+                </h3>
+                <p style="font-style: italic; color: var(--aurora-pink); margin-bottom: 20px;">
+                    Colorado Cowboy & Reindeer Wrangler
+                </p>
+                
+                <div class="audio-section">
+                    <button class="listen-button" onclick="alert('Play Jack introducing himself')">
+                        🎧 Listen to Jack's Introduction
+                    </button>
+                </div>
+
+                <div class="expandable-section">
+                    <button class="expand-toggle" onclick="toggleSection('jack-bio')">
+                        📖 Read Jack's Story
+                        <span id="jack-bio-icon">▼</span>
+                    </button>
+                    <div class="expandable-content" id="jack-bio">
+                        <p>A gentle Colorado cowboy with a deep love for animals and the land, Wrangler Jack manages the North Pole's reindeer operations and serves as an animal conservationist. Mentored by Aiyana, a wise Zuni elder, Jack learned to balance Western ranching traditions with indigenous wisdom about respecting nature.</p>
+
+                        <p>Jack teaches children about environmental stewardship through hands-on outdoor missions. His calm, encouraging voice guides young agents to connect with nature, care for animals, and understand their role in protecting our planet.</p>
+
+                        <p style="color: var(--aurora-purple); margin-top: 20px;">
+                            <strong>Jack reads missions in:</strong> Environmental Stewardship and Nature Connection
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aiyana -->
+            <div style="margin: 40px 0; padding: 30px; background: rgba(232, 180, 217, 0.05); border-radius: 15px; border-left: 5px solid var(--aurora-pink);">
+                <h3 style="color: var(--gold-accent); font-size: 1.8em; margin-bottom: 15px;">
+                    🔥 Aiyana
+                </h3>
+                <p style="font-style: italic; color: var(--aurora-pink); margin-bottom: 20px;">
+                    Zuni Elder & Spiritual Guide
+                </p>
+                
+                <div class="audio-section">
+                    <button class="listen-button" onclick="alert('Play Aiyana introducing herself')">
+                        🎧 Listen to Aiyana's Introduction
+                    </button>
+                </div>
+
+                <div class="expandable-section">
+                    <button class="expand-toggle" onclick="toggleSection('aiyana-bio')">
+                        📖 Read Aiyana's Story
+                        <span id="aiyana-bio-icon">▼</span>
+                    </button>
+                    <div class="expandable-content" id="aiyana-bio">
+                        <p>A wise Zuni elder whose name means "eternal blossom," Aiyana serves as Jack's mentor and spiritual guide. She carries generations of wisdom about balance, respect, and the interconnectedness of all living things. Her teachings blend traditional indigenous knowledge with a gentle, nurturing approach to child development.</p>
+
+                        <p>Aiyana guides children through creative expression, reflection, and mindfulness. Her calm, measured voice helps young agents explore their emotions, discover their inner strength, and express themselves authentically through art and storytelling.</p>
+
+                        <p style="color: var(--gold-accent); margin-top: 20px;">
+                            <strong>Aiyana reads missions in:</strong> Creativity & Joy, and Spiritual Reflection
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="story-section">
+            <h2>How Operation Lumina Works</h2>
+            
+            <div style="margin-top: 30px;">
+                <div style="margin: 25px 0; padding: 25px; background: rgba(78, 204, 163, 0.05); border-radius: 10px;">
+                    <h3 style="color: var(--aurora-green); font-size: 1.5em; margin-bottom: 15px;">
+                        1. Your Child Receives Their Field Kit
+                    </h3>
+                    <p>A beautifully packaged kit arrives with 30 premium mission cards, a 3D star vessel, and their Founding Agent credentials.</p>
+                </div>
+
+                <div style="margin: 25px 0; padding: 25px; background: rgba(157, 132, 183, 0.05); border-radius: 10px;">
+                    <h3 style="color: var(--aurora-purple); font-size: 1.5em; margin-bottom: 15px;">
+                        2. Download the Companion App
+                    </h3>
+                    <p>Set up your parent portal and create your child's agent profile. The app syncs with the physical cards via QR codes.</p>
+                </div>
+
+                <div style="margin: 25px 0; padding: 25px; background: rgba(232, 180, 217, 0.05); border-radius: 10px;">
+                    <h3 style="color: var(--aurora-pink); font-size: 1.5em; margin-bottom: 15px;">
+                        3. Complete Missions Together
+                    </h3>
+                    <p>Your child chooses a mission, listens to character guidance, and completes it in the real world. You scan the QR code to verify and celebrate!</p>
+                </div>
+
+                <div style="margin: 25px 0; padding: 25px; background: rgba(212, 175, 55, 0.05); border-radius: 10px;">
+                    <h3 style="color: var(--gold-accent); font-size: 1.5em; margin-bottom: 15px;">
+                        4. Watch Their Star Fill with Light
+                    </h3>
+                    <p>Each mission adds light to their star vessel (10 points). At 100 points, they receive a personal message from Aurora Frost!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Limited Founding Agent Offer -->
+        <section class="story-section" style="border: 3px solid var(--gold-accent); background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(78, 204, 163, 0.1));">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <span style="display: inline-block; background: var(--gold-accent); color: var(--deep-blue); padding: 10px 25px; border-radius: 25px; font-weight: 700; font-size: 1.1em; margin-bottom: 20px;">
+                    LIMITED TO 50 FOUNDING AGENTS
+                </span>
+            </div>
+
+            <h2 style="text-align: center; font-size: 2.8em; color: var(--gold-accent);">
+                Become a Founding Agent
+            </h2>
+            
+            <p style="text-align: center; font-size: 1.4em; color: var(--ice-blue); margin: 30px 0;">
+                Only 50 children worldwide will receive Founding Agent status
+            </p>
+
+            <div id="countdown-section" style="margin: 40px 0;">
+                <div class="countdown">
+                    <div style="margin-bottom: 15px;">⏰ Presale Ends In:</div>
+                    <div class="countdown-numbers" id="countdown-timer">Loading...</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 40px 0;">
+                <p style="font-size: 1.6em; color: var(--gold-accent); font-weight: 700; margin-bottom: 10px;">
+                    Investment: $147
+                </p>
+                <p style="font-size: 1.1em; color: var(--aurora-pink);">
+                    (Regular price: $197 after presale)
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#reserve" class="cta-button" style="font-size: 1.5em;">
+                    🌟 Reserve Your Founding Agent Spot
+                </a>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center;">
+                <div id="spots-counter" style="font-size: 1.4em; color: var(--aurora-green); margin-top: 25px;">
+                    <span id="spots-available">50</span> Founding Agent Spots Available
+                </div>
+            </div>
+        </section>
+
+        <!-- Stripe Payment Section -->
+        <section class="story-section" id="reserve">
+            <h2 style="text-align: center;">Reserve Your Spot Now</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 40px;">
+                Secure your child's Founding Agent status today
+            </p>
+
+            <div style="text-align: center;">
+                <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+                <stripe-buy-button
+                  buy-button-id="buy_btn_1QYGr1P9KDG95WE7cT1WA6pA"
+                  publishable-key="pk_live_51QXfvIP9KDG95WE7iCPIAU4VY6pFWmvpBMKQNZIKAC0BdpRDr2VfNhFLGPh0KStXK06jxjVD0j1sXPbRsEUwHAqU00qMoovnSL">
+                </stripe-buy-button>
+            </div>
+        </section>
+
+        <footer>
+            <p style="font-size: 1.2em; margin-bottom: 15px;">
+                © 2025 Magic By Design - CocynD LLC
+            </p>
+            <p style="font-size: 1em; color: var(--aurora-pink);">
+                Empowering children through intent, not surveillance
+            </p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                Contact: <a href="mailto:contact@magicbydesign.com" style="color: var(--aurora-green);">contact@magicbydesign.com</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- JavaScript for Interactive Features -->
+    <script>
+        // EXPANDABLE SECTIONS
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = document.getElementById(sectionId + '-icon');
+            
+            content.classList.toggle('active');
+            icon.textContent = content.classList.contains('active') ? '▲' : '▼';
+        }
+
+        // COUNTDOWN TIMER (Set to January 1, 2026)
+        function updateCountdown() {
+            const endDate = new Date('2026-01-01T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = endDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-timer').innerHTML = 
+                days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+            if (distance < 0) {
+                document.getElementById('countdown-section').innerHTML = 
+                    '<p style="font-size: 1.5em; color: var(--aurora-pink);">Presale Ended - Contact Us for Availability!</p>';
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // SPOTS SOLD COUNTER
+        // UPDATE THIS NUMBER AS YOU MAKE SALES!
+        const SPOTS_SOLD = 0; // Change this number: 0, 1, 2, 3, etc.
+        const TOTAL_SPOTS = 50;
+        
+        function updateSpotsCounter() {
+            const spotsRemaining = TOTAL_SPOTS - SPOTS_SOLD;
+            document.getElementById('spots-available').textContent = spotsRemaining;
+            
+            if (spotsRemaining <= 10) {
+                document.getElementById('spots-counter').innerHTML = 
+                    '<span style="color: var(--aurora-pink); font-weight: 700;">ONLY ' + 
+                    spotsRemaining + ' SPOTS LEFT!</span>';
+            }
+            
+            if (spotsRemaining === 0) {
+                document.getElementById('spots-counter').innerHTML = 
+                    '<span style="color: var(--aurora-pink); font-weight: 700;">SOLD OUT - Join Waitlist!</span>';
+            }
+        }
+        
+        updateSpotsCounter();
+    </script>
+</body>
+</html>
