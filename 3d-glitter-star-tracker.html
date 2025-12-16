@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Illuminated Star Tracker - Operation Lumina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0A1628 0%, #1A2B3D 50%, #0D2636 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #E8F4F8;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #4ECCA3, #FFD700, #4ECCA3);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            font-weight: 300;
+            text-transform: uppercase;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            color: #00D9FF;
+            margin-bottom: 60px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .main-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        /* 3D Star Display */
+        .star-display {
+            background: rgba(10, 22, 40, 0.6);
+            border: 2px solid rgba(78, 204, 163, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 0 60px rgba(78, 204, 163, 0.2),
+                inset 0 0 80px rgba(0, 217, 255, 0.05);
+        }
+
+        .star-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        /* 3D Star Structure */
+        .star-3d {
+            width: 400px;
+            height: 450px;
+            margin: 0 auto;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: float-rotate 6s infinite ease-in-out;
+        }
+
+        @keyframes float-rotate {
+            0%, 100% { transform: rotateY(-15deg) translateY(0px); }
+            50% { transform: rotateY(15deg) translateY(-10px); }
+        }
+
+        /* Star Shell - Outer Glass/Acrylic */
+        .star-shell {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(
+                50% 0%, 
+                61% 35%, 
+                98% 35%, 
+                68% 57%, 
+                79% 91%, 
+                50% 70%, 
+                21% 91%, 
+                32% 57%, 
+                2% 35%, 
+                39% 35%
+            );
+            background: 
+                linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.1), 
+                    rgba(78, 204, 163, 0.05)
+                );
+            border: 3px solid rgba(78, 204, 163, 0.4);
+            box-shadow: 
+                0 0 40px rgba(78, 204, 163, 0.3),
+                inset 0 0 60px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glitter Light Fill */
+        .glitter-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.8), transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(255, 165, 0, 0.6), transparent 35%),
+                radial-gradient(circle at 50% 80%, rgba(255, 215, 0, 0.7), transparent 45%),
+                linear-gradient(0deg, 
+                    rgba(255, 215, 0, 0.9) 0%, 
+                    rgba(255, 215, 0, 0.7) 50%,
+                    rgba(255, 165, 0, 0.5) 100%
+                );
+            transition: height 1s ease-out;
+            box-shadow: 
+                0 -20px 60px rgba(255, 215, 0, 0.8),
+                inset 0 0 40px rgba(255, 215, 0, 0.6);
+            animation: shimmer-pulse 2s infinite;
+        }
+
+        @keyframes shimmer-pulse {
+            0%, 100% { 
+                opacity: 0.9;
+                box-shadow: 
+                    0 -20px 60px rgba(255, 215, 0, 0.8),
+                    inset 0 0 40px rgba(255, 215, 0, 0.6);
+            }
+            50% { 
+                opacity: 1;
+                box-shadow: 
+                    0 -30px 80px rgba(255, 215, 0, 1),
+                    inset 0 0 60px rgba(255, 215, 0, 0.9);
+            }
+        }
+
+        /* Glitter Particles */
+        .glitter-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .glitter-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #FFD700, transparent);
+            border-radius: 50%;
+            animation: float-particle 3s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes float-particle {
+            0% { 
+                opacity: 0;
+                transform: translateY(0) translateX(0) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-20px) translateX(5px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(-100px) translateX(-5px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) translateX(0) scale(0);
+            }
+        }
+
+        /* Star Glow Effect */
+        .star-glow {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent 60%);
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+            filter: blur(20px);
+        }
+
+        /* Level Indicators */
+        .level-markers {
+            position: absolute;
+            right: -60px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: space-between;
+            padding: 40px 0;
+        }
+
+        .level-marker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .level-marker.active {
+            opacity: 1;
+            transform: translateX(-5px);
+        }
+
+        .level-line {
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(78, 204, 163, 0.6), transparent);
+        }
+
+        .level-marker.active .level-line {
+            background: linear-gradient(90deg, #FFD700, transparent);
+            box-shadow: 0 0 10px #FFD700;
+        }
+
+        .level-text {
+            font-size: 0.9em;
+            color: #4ECCA3;
+            letter-spacing: 1px;
+        }
+
+        .level-marker.active .level-text {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        /* Controls */
+        .controls {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .fill-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .fill-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.2), rgba(0, 217, 255, 0.2));
+            border: 1px solid #4ECCA3;
+            border-radius: 25px;
+            color: #E8F4F8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .fill-btn:hover {
+            background: linear-gradient(135deg, rgba(78, 204, 163, 0.4), rgba(0, 217, 255, 0.4));
+            box-shadow: 0 0 20px rgba(78, 204, 163, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .fill-btn.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.4));
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .reset-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, rgba(157, 132, 183, 0.3), rgba(232, 180, 217, 0.3));
+            border: 1px solid #9D84B7;
+            border-radius: 30px;
+            color: #E8F4F8;
+            cursor: pointer;
+            font-size: 1.1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, rgba(157, 132, 183, 0.5), rgba(232, 180, 217, 0.5));
+            box-shadow: 0 0 30px rgba(157, 132, 183, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Specifications Panel */
+        .specs-panel {
+            background: rgba(10, 22, 40, 0.6);
+            border: 2px solid rgba(78, 204, 163, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            backdrop-filter: blur(20px);
+        }
+
+        .spec-title {
+            font-size: 2em;
+            color: #00D9FF;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .spec-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(78, 204, 163, 0.05);
+            border-left: 3px solid #4ECCA3;
+            border-radius: 8px;
+        }
+
+        .spec-label {
+            font-size: 0.9em;
+            color: #00D9FF;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .spec-value {
+            font-size: 1.3em;
+            color: #E8F4F8;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* Technical Diagram */
+        .tech-diagram {
+            grid-column: 1 / -1;
+            background: rgba(10, 22, 40, 0.6);
+            border: 2px solid rgba(78, 204, 163, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            backdrop-filter: blur(20px);
+            margin-top: 40px;
+        }
+
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .diagram-card {
+            background: rgba(78, 204, 163, 0.05);
+            border: 1px solid rgba(78, 204, 163, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .diagram-card:hover {
+            border-color: #4ECCA3;
+            box-shadow: 0 0 40px rgba(78, 204, 163, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .diagram-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .diagram-title {
+            font-size: 1.4em;
+            color: #00D9FF;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .diagram-desc {
+            color: #E8F4F8;
+            line-height: 1.8;
+            font-size: 0.95em;
+        }
+
+        .production-options {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .option-card {
+            padding: 30px;
+            background: rgba(26, 43, 61, 0.6);
+            border: 2px solid rgba(78, 204, 163, 0.3);
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            border-color: #4ECCA3;
+            box-shadow: 0 0 40px rgba(78, 204, 163, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .option-name {
+            font-size: 1.5em;
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .option-price {
+            font-size: 2.5em;
+            color: #4ECCA3;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .option-features {
+            text-align: left;
+            color: #E8F4F8;
+            line-height: 2;
+            font-size: 0.95em;
+        }
+
+        .option-features li {
+            margin-bottom: 10px;
+        }
+
+        .recommended {
+            border-color: #FFD700;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .recommended-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #FFD700;
+            color: #1A2B3D;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 1200px) {
+            .main-showcase { grid-template-columns: 1fr; }
+            .star-3d { width: 350px; height: 400px; }
+            .level-markers { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .star-3d { width: 280px; height: 320px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>3D ILLUMINATED STAR</h1>
+        <p class="subtitle">Fills With Magical Golden Light • Premium Collectible</p>
+
+        <div class="main-showcase">
+            <!-- 3D Star Display -->
+            <div class="star-display">
+                <h2 style="font-size: 2em; color: #00D9FF; margin-bottom: 30px; text-align: center; font-weight: 300; letter-spacing: 2px;">
+                    INTERACTIVE PROTOTYPE
+                </h2>
+                <p style="text-align: center; color: #4ECCA3; margin-bottom: 40px; font-size: 1em; letter-spacing: 1px;">
+                    Click stars below to fill with magical light ✨
+                </p>
+
+                <div class="star-container">
+                    <div class="star-3d">
+                        <div class="star-shell">
+                            <div class="glitter-fill" id="glitterFill">
+                                <div class="glitter-particles" id="particles"></div>
+                            </div>
+                        </div>
+                        <div class="star-glow" id="starGlow"></div>
+
+                        <!-- Level Markers -->
+                        <div class="level-markers">
+                            <div class="level-marker" data-level="5">
+                                <div class="level-line"></div>
+                                <div class="level-text">⭐⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="level-marker" data-level="4">
+                                <div class="level-line"></div>
+                                <div class="level-text">⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="level-marker" data-level="3">
+                                <div class="level-line"></div>
+                                <div class="level-text">⭐⭐⭐</div>
+                            </div>
+                            <div class="level-marker" data-level="2">
+                                <div class="level-line"></div>
+                                <div class="level-text">⭐⭐</div>
+                            </div>
+                            <div class="level-marker" data-level="1">
+                                <div class="level-line"></div>
+                                <div class="level-text">⭐</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="fill-buttons">
+                        <button class="fill-btn" onclick="fillStar(1)">⭐ 1 Star</button>
+                        <button class="fill-btn" onclick="fillStar(2)">⭐⭐ 2 Stars</button>
+                        <button class="fill-btn" onclick="fillStar(3)">⭐⭐⭐ 3 Stars</button>
+                        <button class="fill-btn" onclick="fillStar(4)">⭐⭐⭐⭐ 4 Stars</button>
+                        <button class="fill-btn" onclick="fillStar(5)">⭐⭐⭐⭐⭐ 5 Stars</button>
+                    </div>
+                    <button class="reset-btn" onclick="fillStar(0)">RESET</button>
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="specs-panel">
+                <h2 class="spec-title">Product Specifications</h2>
+
+                <div class="spec-item">
+                    <div class="spec-label">Dimensions</div>
+                    <div class="spec-value">8" wide × 9" tall × 3" deep</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Construction</div>
+                    <div class="spec-value">Dual-layer 3D star shell<br>Clear acrylic outer + frosted inner chamber</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Illumination</div>
+                    <div class="spec-value">RGB LED strip (60 LEDs)<br>Gold glitter shimmer effect<br>Progressive fill from bottom to top</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Power Source</div>
+                    <div class="spec-value">USB-C charging<br>Rechargeable battery (10+ hours)<br>Low power consumption (1W)</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Control Method</div>
+                    <div class="spec-value">Bluetooth app connection<br>Touch sensor on base<br>Auto-sync with missions</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Materials</div>
+                    <div class="spec-value">Premium clear acrylic<br>Brushed aluminum base<br>Food-safe glitter medium</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Weight</div>
+                    <div class="spec-value">~1.5 lbs (substantial, premium feel)</div>
+                </div>
+
+                <div class="spec-item">
+                    <div class="spec-label">Production Cost</div>
+                    <div class="spec-value">$28-35 per unit (at 50-100 qty)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Breakdown -->
+        <div class="tech-diagram">
+            <h2 style="font-size: 2.5em; color: #FFD700; margin-bottom: 20px; text-align: center; font-weight: 300; letter-spacing: 3px;">
+                HOW IT WORKS
+            </h2>
+            <p style="text-align: center; color: #E8F4F8; font-size: 1.1em; margin-bottom: 40px; line-height: 1.8;">
+                A beautiful 3D star sculpture that progressively fills with shimmering golden light as your child completes missions.<br>
+                The magic vessel of achievement.
+            </p>
+
+            <div class="diagram-grid">
+                <div class="diagram-card">
+                    <div class="diagram-icon">⭐</div>
+                    <div class="diagram-title">Dual-Layer Star Shell</div>
+                    <div class="diagram-desc">
+                        Outer shell: Clear acrylic cut in perfect 5-point star shape<br><br>
+                        Inner chamber: Frosted/diffused acrylic that scatters light for glitter shimmer effect<br><br>
+                        3" depth creates true 3D sculpture, not flat
+                    </div>
+                </div>
+
+                <div class="diagram-card">
+                    <div class="diagram-icon">💡</div>
+                    <div class="diagram-title">LED Light Chamber</div>
+                    <div class="diagram-desc">
+                        60-LED RGB strip wraps inside inner chamber<br><br>
+                        Programmed to fill from bottom to top (20% per star)<br><br>
+                        Gold shimmer effect: LEDs pulse/twinkle like glitter particles flowing upward<br><br>
+                        When full: Entire star glows and pulses
+                    </div>
+                </div>
+
+                <div class="diagram-card">
+                    <div class="diagram-icon">🔋</div>
+                    <div class="diagram-title">Smart Base</div>
+                    <div class="diagram-desc">
+                        Brushed aluminum weighted base (gives stability + premium feel)<br><br>
+                        USB-C rechargeable battery hidden inside<br><br>
+                        Bluetooth chip for app connectivity<br><br>
+                        Touch sensor button: Child taps to manually add stars
+                    </div>
+                </div>
+
+                <div class="diagram-card">
+                    <div class="diagram-icon">📱</div>
+                    <div class="diagram-title">App Integration</div>
+                    <div class="diagram-desc">
+                        Parent marks mission complete in app<br><br>
+                        Signal sent via Bluetooth to star<br><br>
+                        Star automatically fills to next level<br><br>
+                        Child sees magical light rise in real-time!<br><br>
+                        Or: Child can tap base button to manually fill after completing mission
+                    </div>
+                </div>
+
+                <div class="diagram-card">
+                    <div class="diagram-icon">✨</div>
+                    <div class="diagram-title">Glitter Shimmer Effect</div>
+                    <div class="diagram-desc">
+                        Special diffusion film inside creates "particles floating upward" effect<br><br>
+                        LEDs programmed with random twinkle pattern<br><br>
+                        Looks like liquid gold filling the star<br><br>
+                        When you walk past it, light catches and shimmers
+                    </div>
+                </div>
+
+                <div class="diagram-card">
+                    <div class="diagram-icon">🎁</div>
+                    <div class="diagram-title">Premium Display Piece</div>
+                    <div class="diagram-desc">
+                        Sits on desk, dresser, or nightstand<br><br>
+                        Substantial weight (1.5 lbs) - won't tip over<br><br>
+                        Beautiful even when "empty" (soft ambient glow)<br><br>
+                        Conversation starter for guests<br><br>
+                        Feels like collectible art, not toy
+                    </div>
+                </div>
+            </div>
+
+            <!-- Production Options -->
+            <h3 style="font-size: 2em; color: #00D9FF; margin-top: 60px; margin-bottom: 30px; text-align: center; font-weight: 300;">
+                Production Tiers
+            </h3>
+
+            <div class="production-options">
+                <div class="option-card">
+                    <div class="option-name">Basic LED</div>
+                    <div class="option-price">$22</div>
+                    <ul class="option-features">
+                        <li>✓ 3D acrylic star shell</li>
+                        <li>✓ Single-color LED (gold)</li>
+                        <li>✓ Manual button control</li>
+                        <li>✓ USB powered (no battery)</li>
+                        <li>✓ 5 fill levels</li>
+                        <li>✗ No app connection</li>
+                        <li>✗ No shimmer effects</li>
+                    </ul>
+                </div>
+
+                <div class="option-card recommended">
+                    <div class="recommended-badge">⭐ RECOMMENDED</div>
+                    <div class="option-name">Premium Smart</div>
+                    <div class="option-price">$32</div>
+                    <ul class="option-features">
+                        <li>✓ Everything in Basic PLUS:</li>
+                        <li>✓ RGB LED strip (shimmer effects)</li>
+                        <li>✓ Rechargeable battery</li>
+                        <li>✓ Bluetooth app integration</li>
+                        <li>✓ Glitter particle animations</li>
+                        <li>✓ Touch sensor button</li>
+                        <li>✓ Auto-sync with missions</li>
+                        <li>✓ Premium aluminum base</li>
+                    </ul>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-name">Deluxe Collector</div>
+                    <div class="option-price">$45</div>
+                    <ul class="option-features">
+                        <li>✓ Everything in Premium PLUS:</li>
+                        <li>✓ Real liquid glitter chamber</li>
+                        <li>✓ Motorized glitter pump</li>
+                        <li>✓ Physical glitter rises with light</li>
+                        <li>✓ Hand-numbered collector edition</li>
+                        <li>✓ Custom engraved base</li>
+                        <li>✓ Display case included</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 50px; padding: 40px; background: rgba(255, 215, 0, 0.1); border: 2px solid #FFD700; border-radius: 20px; text-align: center;">
+                <h3 style="font-size: 2em; color: #FFD700; margin-bottom: 20px; font-weight: 300;">
+                    💎 Why This Design is PERFECT 💎
+                </h3>
+                <div style="color: #E8F4F8; font-size: 1.1em; line-height: 2; max-width: 900px; margin: 0 auto;">
+                    <p style="margin-bottom: 15px;">
+                        ✨ <strong>Premium Collectible:</strong> This is a beautiful art piece, not a toy. Justifies $147 price point.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✨ <strong>Magical Experience:</strong> Watching light fill the star is mesmerizing. Pure wonder.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✨ <strong>No Loose Pieces:</strong> Everything contained in one beautiful sculpture. Nothing to lose.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✨ <strong>Instagram-Worthy:</strong> Parents will post photos. Kids will show friends. Free marketing.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        ✨ <strong>Scalable:</strong> Start with Basic ($22), offer Premium ($32) upgrade, later add Deluxe ($45).
+                    </p>
+                    <p>
+                        ✨ <strong>Aurora's Aesthetic:</strong> Matches the high-tech holographic North Pole vibe perfectly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLevel = 0;
+        let glitterParticlesInterval;
+
+        function fillStar(level) {
+            currentLevel = level;
+            const fillHeight = level * 20; // 20% per star
+            const fill = document.getElementById('glitterFill');
+            const glow = document.getElementById('starGlow');
+            
+            fill.style.height = fillHeight + '%';
+            
+            // Update active markers
+            document.querySelectorAll('.level-marker').forEach(marker => {
+                const markerLevel = parseInt(marker.dataset.level);
+                if (markerLevel <= level) {
+                    marker.classList.add('active');
+                } else {
+                    marker.classList.remove('active');
+                }
+            });
+
+            // Update active buttons
+            document.querySelectorAll('.fill-btn').forEach((btn, index) => {
+                if (index + 1 === level) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Star glow when full
+            if (level === 5) {
+                glow.style.opacity = '1';
+                setTimeout(() => {
+                    showTransmissionAlert();
+                }, 1000);
+            } else {
+                glow.style.opacity = '0';
+            }
+
+            // Manage particles
+            if (level > 0) {
+                createGlitterParticles();
+            } else {
+                clearGlitterParticles();
+            }
+        }
+
+        function createGlitterParticles() {
+            clearGlitterParticles();
+            
+            const container = document.getElementById('particles');
+            
+            glitterParticlesInterval = setInterval(() => {
+                if (currentLevel === 0) return;
+                
+                const particle = document.createElement('div');
+                particle.className = 'glitter-particle';
+                particle.style.left = (Math.random() * 90 + 5) + '%';
+                particle.style.bottom = '0';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                container.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 5000);
+            }, 300);
+        }
+
+        function clearGlitterParticles() {
+            if (glitterParticlesInterval) {
+                clearInterval(glitterParticlesInterval);
+            }
+            document.getElementById('particles').innerHTML = '';
+        }
+
+        function showTransmissionAlert() {
+            const alert = document.createElement('div');
+            alert.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, rgba(10, 22, 40, 0.98), rgba(26, 43, 61, 0.98));
+                border: 3px solid #FFD700;
+                border-radius: 30px;
+                padding: 60px;
+                z-index: 10000;
+                box-shadow: 0 0 100px rgba(255, 215, 0, 0.8);
+                text-align: center;
+                animation: alert-pop 0.5s ease-out;
+            `;
+
+            alert.innerHTML = `
+                <div style="font-size: 6em; margin-bottom: 20px;">⭐✨🎄</div>
+                <div style="font-size: 2.5em; color: #FFD700; margin-bottom: 20px; letter-spacing: 3px; font-weight: 300;">
+                    STAR COMPLETE!
+                </div>
+                <div style="font-size: 1.8em; color: #4ECCA3; margin-bottom: 25px;">
+                    ALL 5 MISSIONS ACCOMPLISHED
+                </div>
+                <div style="color: #E8F4F8; font-size: 1.2em; margin-bottom: 35px; line-height: 1.8;">
+                    Your star is filled with magical light!<br>
+                    Aurora Frost is celebrating your achievements! 🌟
+                </div>
+                <button onclick="this.parentElement.remove()" style="
+                    padding: 20px 50px;
+                    background: linear-gradient(135deg, #FFD700, #FFA500);
+                    border: none;
+                    border-radius: 35px;
+                    color: #1A2B3D;
+                    font-size: 1.3em;
+                    cursor: pointer;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    TRANSMIT TO NORTH POLE
+                </button>
+            `;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes alert-pop {
+                    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+                    70% { transform: translate(-50%, -50%) scale(1.05); }
+                    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            document.body.appendChild(alert);
+        }
+
+        // Start with empty star
+        fillStar(0);
+    </script>
+</body>
+</html>
