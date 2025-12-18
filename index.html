@@ -1,30 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--
-    OPERATION LUMINA - ULTIMATE COMPLETE WEBSITE
+    MAGIC BY DESIGN - OPERATION LUMINA WEBSITE
     
-    Features:
-    - 3D Gated Book with free preview
-    - Aurora's Transmission + Quiz
-    - Demo App Section (link to web app)
-    - Detailed Founders Story
-    - Field Kit with Limited Edition Aurora Doll
-    - CocynD Branding
-    - Multiple conversion paths
+    TO UPDATE AS YOU SELL FOUNDING AGENT SPOTS:
+    1. Scroll to bottom of file (around line 720)
+    2. Find: const SPOTS_SOLD = 0;
+    3. Change the number (0 to 1, 2, 3, etc.) as you make sales
+    4. Save file and re-upload to GitHub
     
-    TO UPDATE:
-    - Line ~1900: SPOTS_SOLD counter
-    - Line ~1895: Formspree ID (already set: xqarrqok)
-    - Line ~1900: Stripe payment links
+    STRIPE PAYMENT BUTTON: ✅ INTEGRATED!
+    Your Stripe buy button is live and ready to accept payments!
+    
+    TO UPDATE YOUR YOUTUBE VIDEO:
+    1. Video already embedded: https://www.youtube.com/watch?v=YWNsMJPItUA
+    2. To change it, replace YWNsMJPItUA with new video ID
 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operation Lumina - The Elf Redemption Mission</title>
-    <meta name="description" content="Join Aurora Frost in Operation Lumina. Read the story, experience the app demo, become a Founding Agent.">
-    
+    <title>Magic By Design - Operation Lumina</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://js.stripe.com/v3/"></script>
     
     <style>
         * {
@@ -41,18 +37,18 @@
             --aurora-purple: #9D84B7;
             --aurora-pink: #E8B4D9;
             --gold-accent: #D4AF37;
-            --star-yellow: #FFD700;
+            --shadow-blue: rgba(26, 43, 61, 0.1);
         }
 
         body {
             font-family: 'Cormorant Garamond', serif;
             background: linear-gradient(180deg, #0A1628 0%, #1A2B3D 50%, #2C4A6B 100%);
-            background-attachment: fixed;
             color: var(--frost-white);
-            line-height: 1.8;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* Animated Northern Lights Background */
         body::before {
             content: '';
             position: fixed;
@@ -74,6 +70,7 @@
             50% { opacity: 0.6; transform: translateY(-20px) scale(1.1); }
         }
 
+        /* Floating Snow */
         .snowflake {
             position: fixed;
             top: -10px;
@@ -87,21 +84,6 @@
             to { transform: translateY(100vh); }
         }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
-        }
-
         .container {
             position: relative;
             z-index: 2;
@@ -110,65 +92,106 @@
             padding: 20px;
         }
 
+        /* Header */
         header {
             text-align: center;
-            padding: 40px 20px 30px;
+            padding: 60px 20px 40px;
             animation: fadeInDown 1s ease-out;
         }
 
-        .logo-container img {
-            max-width: 600px;
-            width: 90%;
-            filter: drop-shadow(0 10px 30px rgba(78, 204, 163, 0.4));
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple), var(--aurora-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(78, 204, 163, 0.5);
+            letter-spacing: 3px;
         }
 
         .tagline {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2em;
-            color: var(--aurora-green);
-            margin: 15px 0;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        nav a {
+            font-size: 1.4em;
             color: var(--ice-blue);
-            text-decoration: none;
-            font-size: 1em;
-            padding: 8px 16px;
-            border: 2px solid transparent;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            transition: all 0.3s ease;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px var(--shadow-blue);
+            animation: fadeInUp 1.2s ease-out 0.3s both;
         }
 
-        nav a:hover {
-            border-color: var(--aurora-green);
-            color: var(--aurora-green);
-            transform: translateY(-2px);
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: var(--gold-accent);
+            text-align: center;
         }
 
+        .hero-subtitle {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--ice-blue);
+            font-weight: 300;
+        }
+
+        /* Video Section */
+        .video-container {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--aurora-green);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            background: var(--deep-blue);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Story Sections */
         .story-section {
             background: rgba(255, 255, 255, 0.03);
-            border: 2px solid var(--aurora-purple);
-            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
             padding: 50px 40px;
-            margin: 60px 0;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1s ease-out both;
+            margin: 40px 0;
+            animation: fadeInUp 1.2s ease-out both;
         }
 
         .story-section h2 {
             font-family: 'Cinzel', serif;
             font-size: 2.5em;
-            color: var(--gold-accent);
             margin-bottom: 30px;
+            color: var(--aurora-green);
             text-align: center;
+            position: relative;
         }
 
         .story-section h2::after {
@@ -180,6 +203,26 @@
             margin: 20px auto 0;
         }
 
+        .story-section h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            margin: 30px 0 15px;
+            color: var(--aurora-purple);
+        }
+
+        .story-section p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--ice-blue);
+        }
+
+        .story-section em {
+            color: var(--aurora-pink);
+            font-style: italic;
+        }
+
+        /* Character Card */
         .character-card {
             background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1));
             border: 2px solid var(--aurora-green);
@@ -202,157 +245,428 @@
             font-style: italic;
         }
 
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeInUp 1.4s ease-out 0.6s both;
+        }
+
         .cta-button {
             display: inline-block;
-            padding: 18px 45px;
-            font-size: 1.2em;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            padding: 20px 50px;
             background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple));
-            color: white;
+            color: var(--frost-white);
             text-decoration: none;
             border-radius: 50px;
             border: 2px solid var(--gold-accent);
-            cursor: pointer;
-            font-family: 'Cinzel', serif;
+            box-shadow: 0 10px 30px rgba(78, 204, 163, 0.3);
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(78, 204, 163, 0.4);
+            margin: 10px;
         }
 
         .cta-button:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(78, 204, 163, 0.6);
+            box-shadow: 0 15px 40px rgba(78, 204, 163, 0.5);
+            background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink));
         }
 
-        /* Mobile Responsive */
+        /* Founders Grid */
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .founder-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--aurora-purple);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(157, 132, 183, 0.3);
+        }
+
+        .founder-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            color: var(--gold-accent);
+            margin-bottom: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .logo-container img {
-                max-width: 100%;
-            }
-            
-            .story-section {
-                padding: 30px 20px;
-            }
-            
-            nav {
-                gap: 10px;
-            }
-            
-            nav a {
-                font-size: 0.95em;
-                padding: 6px 12px;
-            }
+            .logo { font-size: 2.5em; }
+            .hero h1 { font-size: 2em; }
+            .hero-subtitle { font-size: 1.2em; }
+            .story-section h2 { font-size: 2em; }
+            .story-section p { font-size: 1.1em; }
+            .hero, .story-section { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
+    <!-- Animated Snow -->
+    <script>
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 5000);
+        }
+        setInterval(createSnowflake, 200);
+    </script>
+
     <div class="container">
         <header>
-            <div class="logo-container">
-                <img src="Operation_Lumina_Logo.png" alt="Operation Lumina - The Elf Redemption Mission">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="Operation_Lumina_Logo.png" alt="Operation Lumina - The Elf Redemption Mission" style="max-width: 600px; width: 90%; height: auto; margin: 0 auto; filter: drop-shadow(0 10px 30px rgba(78, 204, 163, 0.4));">
             </div>
-            <div class="tagline">The Elf Redemption Mission</div>
-            <div style="font-size: 0.95em; color: var(--aurora-purple); margin-top: 10px;">
-                Powered by Magic By Design
-            </div>
-            <nav>
-                <a href="#story">Aurora's Story</a>
-                <a href="#demo">Try Demo</a>
-                <a href="#founders">Our Story</a>
-                <a href="#field-kit">Field Kit</a>
-                <a href="#waitlist">Waitlist</a>
-            </nav>
+            <div class="tagline">Powered by Magic By Design</div>
         </header>
 
-        <!-- Hero Section with Image -->
-        <section class="story-section" style="text-align: center;">
-            <h1 style="font-family: 'Cinzel', serif; font-size: 2.8em; color: var(--gold-accent); margin-bottom: 20px;">
-                Welcome to Operation Lumina
-            </h1>
-            <p style="font-size: 1.4em; color: var(--aurora-pink); margin-bottom: 30px;">
-                Where Every Child Becomes a Hero of Their Own Story
+        <!-- 3D ANIMATED BOOK SECTION - NEW! -->
+        <section class="story-section" id="book" style="background: linear-gradient(135deg, rgba(78, 204, 163, 0.15), rgba(157, 132, 183, 0.15)); border-color: var(--aurora-green);">
+            <h2>📖 Aurora's Awakening</h2>
+            <p style="text-align: center; font-size: 1.3em; color: var(--aurora-pink); margin-bottom: 40px;">
+                The Story That Changed Everything
             </p>
-            
-            <img 
-                src="operation-lumina-hero.jpg" 
-                alt="Aurora Frost presents Operation Lumina" 
-                style="width: 100%; max-width: 900px; height: auto; border-radius: 15px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); margin: 30px 0;"
-            >
-            
-            <p style="font-size: 1.2em; color: var(--aurora-green); margin-top: 20px;">
-                Aurora Frost presents: Where Intent Matters Over Action
+
+            <div style="perspective: 2000px; margin: 50px auto; max-width: 900px; position: relative;">
+                <div id="book-3d" style="position: relative; width: 100%; min-height: 600px; transform-style: preserve-3d; transition: transform 0.8s;">
+                    
+                    <!-- Book Cover -->
+                    <div id="book-cover" style="position: absolute; width: 50%; height: 600px; left: 0; background: rgba(26, 43, 61, 0.95); border: 3px solid var(--aurora-green); border-radius: 10px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); transform-origin: right center; transition: transform 0.8s; cursor: pointer; overflow: hidden;">
+                        <img src="operation-lumina-hero.jpg" alt="Aurora Frost" style="width: 100%; height: 100%; object-fit: cover; position: absolute; opacity: 0.4;">
+                        <div style="position: relative; z-index: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; background: linear-gradient(135deg, rgba(26, 43, 61, 0.7), rgba(44, 74, 107, 0.7));">
+                            <h3 style="font-family: 'Cinzel', serif; font-size: 2.5em; color: var(--gold-accent); margin-bottom: 20px; text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);">Aurora's Story</h3>
+                            <p style="font-size: 1.2em; color: var(--aurora-green); margin-bottom: 30px;">Pages 1-2 FREE</p>
+                            <button onclick="openBook()" style="padding: 20px 40px; font-size: 1.2em; background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple)); color: white; border: none; border-radius: 50px; cursor: pointer; font-family: 'Cinzel', serif; box-shadow: 0 10px 30px rgba(78, 204, 163, 0.4);">
+                                Open Book
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Book Pages -->
+                    <div id="book-pages" style="position: absolute; right: 0; width: 50%; height: 600px; background: rgba(26, 43, 61, 0.98); border: 3px solid var(--aurora-purple); border-radius: 10px; padding: 30px; overflow-y: auto; opacity: 0; transition: opacity 0.5s;">
+                        
+                        <!-- Page 1 -->
+                        <div style="margin-bottom: 40px; padding: 25px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 2px solid var(--aurora-purple);">
+                            <h3 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--gold-accent); margin-bottom: 20px;">Page 1: The Watcher</h3>
+                            
+                            <!-- Audio Player -->
+                            <div style="background: rgba(78, 204, 163, 0.1); border: 2px solid var(--aurora-green); border-radius: 12px; padding: 15px; margin: 20px 0; display: flex; align-items: center; gap: 15px;">
+                                <button onclick="playAudio('page1')" id="btn-page1" style="background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple)); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2em;">
+                                    <span id="icon-page1">▶️</span>
+                                </button>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--aurora-green);">Listen to Aurora read Page 1</div>
+                                    <div style="font-size: 0.9em; color: var(--aurora-pink); font-style: italic;">Narrated by Aurora Frost</div>
+                                </div>
+                                <audio id="audio-page1" preload="metadata"><source src="audio/aurora-page1.mp3" type="audio/mpeg"></audio>
+                            </div>
+
+                            <p style="line-height: 1.9; margin-bottom: 15px;">Aurora Frost stood at her monitoring station in the North Pole, her ice-blue eyes scanning the countless screens before her. Each display showed a different child, a different moment, a different judgment to be made.</p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">She had been doing this for years—watching, evaluating, categorizing. Naughty or nice. Black or white. It was simple. It was her job.</p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">Until the day she saw Leo.</p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">The boy was eight years old, struggling in the community pool while his friends played nearby. Aurora watched the screen as Leo went under, his small hands reaching for help that wasn't coming.</p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">For three eternal seconds, Aurora froze. She was trained to watch, to record, to judge—not to act. But something deeper stirred within her, something that defied her programming.</p>
+                            
+                            <p style="line-height: 1.9; font-weight: 700; color: var(--aurora-green);">She dove.</p>
+                            
+                            <div style="text-align: center; color: var(--aurora-pink); font-style: italic; margin-top: 20px;">~ Page 1 ~</div>
+                        </div>
+
+                        <!-- Page 2 -->
+                        <div style="margin-bottom: 40px; padding: 25px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 2px solid var(--aurora-purple);">
+                            <h3 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--gold-accent); margin-bottom: 20px;">Page 2: The Question</h3>
+                            
+                            <!-- Audio Player -->
+                            <div style="background: rgba(78, 204, 163, 0.1); border: 2px solid var(--aurora-green); border-radius: 12px; padding: 15px; margin: 20px 0; display: flex; align-items: center; gap: 15px;">
+                                <button onclick="playAudio('page2')" id="btn-page2" style="background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple)); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2em;">
+                                    <span id="icon-page2">▶️</span>
+                                </button>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--aurora-green);">Listen to Aurora read Page 2</div>
+                                    <div style="font-size: 0.9em; color: var(--aurora-pink); font-style: italic;">Narrated by Aurora Frost</div>
+                                </div>
+                                <audio id="audio-page2" preload="metadata"><source src="audio/aurora-page2.mp3" type="audio/mpeg"></audio>
+                            </div>
+
+                            <p style="line-height: 1.9; margin-bottom: 15px;">When Leo coughed up the last of the water, he looked up at Aurora with wide, confused eyes. The lifeguard was finally rushing over, but it was Aurora who had pulled him from the depths.</p>
+                            
+                            <p style="font-size: 1.3em; color: var(--aurora-pink); margin: 25px 0; text-align: center; font-style: italic;">
+                                "Why were you just watching? Why were you watching instead of helping?"
+                            </p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">The question hit Aurora like a physical force. In that moment, she saw her centuries of service through new eyes. She had been watching millions of children, making millions of judgments, but never truly seeing them. Never truly helping.</p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">"I..." Aurora started, but the words caught in her throat.</p>
+                            
+                            <p style="line-height: 1.9; margin-bottom: 15px;">Leo looked at her with an understanding far beyond his years. "You weren't judging what I did," he said quietly. "You were judging what you thought I meant to do."</p>
+                            
+                            <p style="font-size: 1.4em; color: var(--gold-accent); margin: 25px 0; text-align: center; font-family: 'Cinzel', serif; font-style: italic;">
+                                "You're not judging the action—you're judging the intent."
+                            </p>
+                            
+                            <p style="text-align: center; color: var(--aurora-pink); font-size: 1.2em; margin-top: 25px; font-weight: 700;">
+                                What happened next changed everything...
+                            </p>
+                            
+                            <div style="text-align: center; color: var(--aurora-pink); font-style: italic; margin-top: 20px;">~ Page 2 ~</div>
+                        </div>
+
+                        <!-- Page 3 - LOCKED -->
+                        <div style="position: relative; margin-bottom: 40px; padding: 25px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 2px solid var(--aurora-purple); min-height: 400px;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(26, 43, 61, 0.98), rgba(44, 74, 107, 0.98)); backdrop-filter: blur(10px); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; z-index: 10;">
+                                <div style="font-size: 3.5em; margin-bottom: 20px; animation: pulse 2s ease-in-out infinite;">🔒</div>
+                                <h3 style="color: var(--gold-accent); font-size: 1.8em; margin-bottom: 15px; text-align: center;">Unlock Aurora's Complete Story</h3>
+                                <p style="font-size: 1.05em; max-width: 500px; margin-bottom: 25px; text-align: center;">Support Operation Lumina and unlock the full story with exclusive audio narration.</p>
+
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; width: 100%; max-width: 600px; margin-top: 20px;">
+                                    <div onclick="window.location.href='https://buy.stripe.com/bJe9AT4sH6X8fOF5D62kw01'" style="background: rgba(255, 255, 255, 0.05); border: 2px solid var(--aurora-green); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                                        <div style="font-size: 1.8em; margin-bottom: 8px;">⭐</div>
+                                        <div style="font-family: 'Cinzel', serif; font-size: 1.1em; color: var(--gold-accent); margin-bottom: 6px;">Believer</div>
+                                        <div style="font-size: 1.6em; color: var(--aurora-green); margin: 6px 0; font-weight: 700;">$5</div>
+                                        <div style="font-size: 0.85em; color: var(--ice-blue);">Full story</div>
+                                    </div>
+
+                                    <div onclick="window.location.href='https://buy.stripe.com/cNieVd4sH95g0TLaXq2kw02'" style="background: rgba(255, 255, 255, 0.05); border: 2px solid var(--aurora-purple); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                                        <div style="font-size: 1.8em; margin-bottom: 8px;">✨</div>
+                                        <div style="font-family: 'Cinzel', serif; font-size: 1.1em; color: var(--gold-accent); margin-bottom: 6px;">Hero</div>
+                                        <div style="font-size: 1.6em; color: var(--aurora-green); margin: 6px 0; font-weight: 700;">$25</div>
+                                        <div style="font-size: 0.85em; color: var(--ice-blue);">+ $10 credit</div>
+                                    </div>
+
+                                    <div onclick="window.location.href='https://buy.stripe.com/6oU9ATaR5dlw45X1mQ2kw03'" style="background: rgba(255, 255, 255, 0.05); border: 2px solid var(--gold-accent); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                                        <div style="font-size: 1.8em; margin-bottom: 8px;">💎</div>
+                                        <div style="font-family: 'Cinzel', serif; font-size: 1.1em; color: var(--gold-accent); margin-bottom: 6px;">Founder</div>
+                                        <div style="font-size: 1.6em; color: var(--aurora-green); margin: 6px 0; font-weight: 700;">$50</div>
+                                        <div style="font-size: 0.85em; color: var(--ice-blue);">+ $50 credit</div>
+                                    </div>
+
+                                    <div onclick="window.location.href='https://buy.stripe.com/6oUbJ12kz95g31Te9C2kw00'" style="background: rgba(255, 255, 255, 0.05); border: 2px solid var(--star-yellow); border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                                        <div style="font-size: 1.8em; margin-bottom: 8px;">🌟</div>
+                                        <div style="font-family: 'Cinzel', serif; font-size: 1.1em; color: var(--gold-accent); margin-bottom: 6px;">Field Kit</div>
+                                        <div style="font-size: 1.6em; color: var(--aurora-green); margin: 6px 0; font-weight: 700;">$147</div>
+                                        <div style="font-size: 0.85em; color: var(--ice-blue);">Complete</div>
+                                    </div>
+                                </div>
+
+                                <p style="margin-top: 20px; font-size: 0.9em;">
+                                    Or <a href="#waitlist" style="color: var(--aurora-green); text-decoration: underline;">join the free waitlist</a>
+                                </p>
+                            </div>
+
+                            <h3 style="opacity: 0.3;">Page 3: The Transformation</h3>
+                            <p style="opacity: 0.3;">[Support to continue reading...]</p>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button onclick="closeBook()" style="padding: 15px 35px; font-size: 1.1em; background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink)); color: white; border: none; border-radius: 50px; cursor: pointer; font-family: 'Cinzel', serif;">Close Book</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.05em; margin-top: 25px; color: var(--aurora-pink);">
+                📖 Pages 1-2 FREE • Support to unlock complete story with audio
             </p>
         </section>
 
-        <!-- Aurora's Story Section -->
-        <section class="story-section" id="story">
+        <!-- MEET THE CHARACTERS - NEW! -->
+        <section class="story-section" id="characters">
+            <h2>Meet the Characters</h2>
+            
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 40px;">
+                Hear from Aurora, Wrangler Jack, and Aiyana in their own voices
+            </p>
+
+            <!-- Aurora -->
+            <div style="background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1)); border: 2px solid var(--aurora-green); border-radius: 15px; padding: 30px; margin: 30px 0;">
+                <div style="font-family: 'Cinzel', serif; font-size: 2em; color: var(--gold-accent); margin-bottom: 10px;">🧊 Aurora Frost</div>
+                <div style="font-size: 1.3em; color: var(--aurora-green); margin-bottom: 20px; font-style: italic;">Head of North Pole Security</div>
+                
+                <div style="background: rgba(78, 204, 163, 0.1); border: 2px solid var(--aurora-green); border-radius: 12px; padding: 15px; margin: 20px 0; display: flex; align-items: center; gap: 15px;">
+                    <button onclick="playAudio('aurora-intro')" id="btn-aurora-intro" style="background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple)); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2em;">
+                        <span id="icon-aurora-intro">▶️</span>
+                    </button>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: var(--aurora-green);">Listen to Aurora's Introduction</div>
+                        <div style="font-size: 0.9em; color: var(--aurora-pink); font-style: italic;">Narrated by Aurora Frost</div>
+                    </div>
+                    <audio id="audio-aurora-intro" preload="metadata"><source src="audio/aurora-intro.mp3" type="audio/mpeg"></audio>
+                </div>
+
+                <p style="font-size: 1.15em; line-height: 1.9;">A water elf transformed by a child's question: <em style="color: var(--aurora-pink);">"You're not judging the action, you're judging the intent."</em> She created Operation Lumina to replace judgment with empowerment.</p>
+            </div>
+
+            <!-- Wrangler Jack -->
+            <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(157, 132, 183, 0.1)); border: 2px solid var(--gold-accent); border-radius: 15px; padding: 30px; margin: 30px 0;">
+                <div style="font-family: 'Cinzel', serif; font-size: 2em; color: var(--gold-accent); margin-bottom: 10px;">🤠 Wrangler Jack</div>
+                <div style="font-size: 1.3em; color: var(--aurora-green); margin-bottom: 20px; font-style: italic;">Western Command & Wildlife Officer</div>
+                
+                <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid var(--gold-accent); border-radius: 12px; padding: 15px; margin: 20px 0; display: flex; align-items: center; gap: 15px;">
+                    <button onclick="playAudio('jack-intro')" id="btn-jack-intro" style="background: linear-gradient(135deg, var(--gold-accent), var(--aurora-pink)); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2em;">
+                        <span id="icon-jack-intro">▶️</span>
+                    </button>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: var(--gold-accent);">Listen to Wrangler Jack</div>
+                        <div style="font-size: 0.9em; color: var(--aurora-pink); font-style: italic;">Narrated by Wrangler Jack</div>
+                    </div>
+                    <audio id="audio-jack-intro" preload="metadata"><source src="audio/jack-intro.mp3" type="audio/mpeg"></audio>
+                </div>
+
+                <p style="font-size: 1.15em; line-height: 1.9;">Colorado cowboy who trains flying reindeer and teaches wildlife conservation. With tough-but-fair leadership, he works with children who need structure through real-world ranch challenges.</p>
+            </div>
+
+            <!-- Aiyana -->
+            <div style="background: linear-gradient(135deg, rgba(232, 180, 217, 0.1), rgba(157, 132, 183, 0.1)); border: 2px solid var(--aurora-pink); border-radius: 15px; padding: 30px; margin: 30px 0;">
+                <div style="font-family: 'Cinzel', serif; font-size: 2em; color: var(--gold-accent); margin-bottom: 10px;">🔥 Aiyana Kokopelli</div>
+                <div style="font-size: 1.3em; color: var(--aurora-green); margin-bottom: 20px; font-style: italic;">Spiritual Mentor & Fire Keeper</div>
+                
+                <div style="background: rgba(232, 180, 217, 0.1); border: 2px solid var(--aurora-pink); border-radius: 12px; padding: 15px; margin: 20px 0; display: flex; align-items: center; gap: 15px;">
+                    <button onclick="playAudio('aiyana-intro')" id="btn-aiyana-intro" style="background: linear-gradient(135deg, var(--aurora-pink), var(--aurora-purple)); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2em;">
+                        <span id="icon-aiyana-intro">▶️</span>
+                    </button>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: var(--aurora-pink);">Listen to Aiyana Kokopelli</div>
+                        <div style="font-size: 0.9em; color: var(--aurora-purple); font-style: italic;">Narrated by Aiyana Kokopelli</div>
+                    </div>
+                    <audio id="audio-aiyana-intro" preload="metadata"><source src="audio/aiyana-intro.mp3" type="audio/mpeg"></audio>
+                </div>
+
+                <p style="font-size: 1.15em; line-height: 1.9;">Zuni wise woman who teaches: <em style="color: var(--aurora-pink);">"Take Only What You Need, Give Back Everything Else."</em> She shows how to be both fierce protector and gentle nurturer of the earth.</p>
+            </div>
+        </section>
+
+        <!-- DEMO APP SECTION - NEW! -->
+        <section class="story-section" id="demo" style="background: linear-gradient(135deg, rgba(78, 204, 163, 0.15), rgba(157, 132, 183, 0.15)); border-color: var(--aurora-green);">
+            <h2>Experience the App</h2>
+            
+            <div style="text-align: center; padding: 50px 30px; background: rgba(26, 43, 61, 0.6); border-radius: 20px; border: 2px solid var(--aurora-purple);">
+                <div style="font-size: 4.5em; margin-bottom: 20px;">📱</div>
+                <h3 style="font-family: 'Cinzel', serif; font-size: 2em; color: var(--gold-accent); margin-bottom: 20px;">
+                    Interactive Demo App
+                </h3>
+                <p style="font-size: 1.15em; color: var(--ice-blue); margin-bottom: 25px; max-width: 650px; margin-left: auto; margin-right: auto;">
+                    Try Operation Lumina features right in your browser:
+                </p>
+                <ul style="font-size: 1.05em; color: var(--aurora-green); line-height: 2.2; list-style: none; padding: 0; margin-bottom: 30px;">
+                    <li>✨ Agent profile creation</li>
+                    <li>⭐ Interactive Star Tracker</li>
+                    <li>📸 QR mission scanner</li>
+                    <li>🎯 Mission browser</li>
+                    <li>👨‍👩‍👧 Parent portal</li>
+                </ul>
+                
+                <a href="demo-app.html" style="display: inline-block; padding: 18px 45px; font-size: 1.3em; background: linear-gradient(135deg, var(--aurora-green), var(--aurora-purple)); color: white; text-decoration: none; border-radius: 50px; border: 2px solid var(--gold-accent); cursor: pointer; font-family: 'Cinzel', serif; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(78, 204, 163, 0.4);">
+                    🎮 Try Demo Now
+                </a>
+                
+                <p style="font-size: 0.95em; color: var(--aurora-pink); margin-top: 18px; font-style: italic;">
+                    No download required • Works on any device
+                </p>
+            </div>
+        </section>
+
+        <!-- APP DOWNLOAD SECTION - NEW! -->
+        <section class="story-section" id="app-download">
+            <h2>Download the Full App</h2>
+            
+            <p style="text-align: center; font-size: 1.25em; margin-bottom: 35px;">
+                Full iOS & Android apps launching soon!
+            </p>
+
+            <div style="text-align: center;">
+                <p style="font-size: 1.1em; color: var(--ice-blue); margin-bottom: 30px;">
+                    We're submitting to Apple App Store and Google Play this week.
+                </p>
+
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px 0;">
+                    <div style="position: relative; opacity: 0.5; cursor: not-allowed;">
+                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="App Store" style="height: 60px;">
+                        <span style="position: absolute; top: -8px; right: -8px; background: var(--aurora-pink); color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.7em; font-weight: 700; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">Coming Soon</span>
+                    </div>
+                    <div style="position: relative; opacity: 0.5; cursor: not-allowed;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" style="height: 60px;">
+                        <span style="position: absolute; top: -8px; right: -8px; background: var(--aurora-pink); color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.7em; font-weight: 700; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">Coming Soon</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.05em; color: var(--aurora-purple); margin-top: 28px; font-style: italic;">
+                    Join the waitlist to be notified when apps launch!
+                </p>
+
+                <a href="#waitlist" style="display: inline-block; padding: 15px 40px; font-size: 1.1em; background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink)); color: white; text-decoration: none; border-radius: 50px; cursor: pointer; font-family: 'Cinzel', serif; margin-top: 18px; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(157, 132, 183, 0.4);">
+                    Get Launch Notification
+                </a>
+            </div>
+        </section>
+
+        <section class="story-section">
             <h2>Meet Aurora Frost</h2>
             
             <div class="character-card">
                 <div class="character-name">Aurora Frost</div>
                 <div class="character-title">Head of North Pole Security & Guardian of Children's Potential</div>
                 
-                <p style="font-size: 1.2em; line-height: 1.9; margin-bottom: 20px;">
-                    Aurora Frost is a water elf whose journey mirrors the transformation she inspires in children everywhere. Once focused solely on surveillance and judgment, Aurora's perspective shifted dramatically when a child taught her a profound truth: <em style="color: var(--aurora-pink);">"You're not judging the action, you're judging the intent."</em>
-                </p>
+                <p>Aurora Frost is a water elf whose journey mirrors the transformation she inspires in children everywhere. Once focused solely on surveillance and judgment, Aurora's perspective shifted dramatically when a child taught her a profound truth: <em>"You're not judging the action, you're judging the intent."</em></p>
 
-                <p style="font-size: 1.2em; line-height: 1.9; margin-bottom: 20px;">
-                    This revelation transformed Aurora from a guardian watching for mistakes into a champion celebrating growth. She realized that children aren't defined by their struggles, but by their courage to learn and grow from them.
-                </p>
+                <p>This revelation transformed Aurora from a guardian watching for mistakes into a champion celebrating growth. She realized that children aren't defined by their struggles, but by their courage to learn and grow from them.</p>
 
-                <h3 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--aurora-purple); margin: 30px 0 20px;">
-                    The Birth of Operation Lumina
-                </h3>
-                
-                <p style="font-size: 1.2em; line-height: 1.9; margin-bottom: 20px;">
-                    Now serving as Head of North Pole Security, Aurora has revolutionized the North Pole's approach to helping children thrive. She created Operation Lumina, replacing outdated "naughty lists" with an empowerment-based system that recognizes every misstep as an opportunity for growth.
-                </p>
+                <h3>The Birth of Operation Lumina</h3>
+                <p>Now serving as Head of North Pole Security, Aurora has revolutionized the North Pole's approach to helping children thrive. She created Operation Lumina, replacing outdated "naughty lists" with an empowerment-based system that recognizes every misstep as an opportunity for growth.</p>
 
-                <p style="font-size: 1.2em; line-height: 1.9;">
-                    Through her innovative star collection system, children complete "Redemption Opportunities" that transform challenges into achievements. Parents become partners in transmitting this magic directly to the North Pole, creating a collaborative journey of growth and celebration.
-                </p>
+                <p>Through her innovative star collection system, children complete "Redemption Opportunities" that transform challenges into achievements. Parents become partners in transmitting this magic directly to the North Pole, creating a collaborative journey of growth and celebration.</p>
+
+                <p>Aurora believes every child has the potential to be a hero of their own story. With her Field Kits and digital guidance, she equips families with the tools to turn everyday moments into extraordinary adventures in character development.</p>
             </div>
         </section>
 
-        <!-- Demo App Section - TO BE ADDED -->
-        <section class="story-section" id="demo" style="background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(157, 132, 183, 0.1)); border-color: var(--aurora-green);">
-            <h2>Experience the App</h2>
-            
-            <p style="text-align: center; font-size: 1.3em; margin-bottom: 40px; color: var(--ice-blue);">
-                Try the Operation Lumina app demo right in your browser!
-            </p>
-
-            <div style="text-align: center; padding: 60px 40px; background: rgba(26, 43, 61, 0.6); border-radius: 20px; border: 2px solid var(--aurora-purple);">
-                <div style="font-size: 5em; margin-bottom: 20px;">📱</div>
-                <h3 style="font-family: 'Cinzel', serif; font-size: 2em; color: var(--gold-accent); margin-bottom: 20px;">
-                    Interactive Demo Coming Soon!
-                </h3>
-                <p style="font-size: 1.2em; color: var(--ice-blue); margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">
-                    We're building a fully interactive web demo where you can:
-                </p>
-                <ul style="font-size: 1.1em; color: var(--aurora-green); line-height: 2.2; list-style: none; padding: 0; margin-bottom: 30px;">
-                    <li>✨ Create an agent profile</li>
-                    <li>⭐ See the Star Tracker in action</li>
-                    <li>📸 Simulate QR mission scanning</li>
-                    <li>🎯 Browse all 30 missions</li>
-                    <li>👨‍👩‍👧 Explore the parent portal</li>
-                    <li>🎭 Visit character portals</li>
-                </ul>
-                <p style="font-size: 1.1em; color: var(--aurora-pink); font-style: italic;">
-                    Demo app launching within 3-5 days! Full iOS & Android apps submitting to app stores next week.
-                </p>
-            </div>
-
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="#waitlist" class="cta-button">
-                    Get Notified When Demo Goes Live
-                </a>
-            </div>
-        </section>
-
-        <!-- Founders' Story Section -->
-        <section class="story-section" id="founders">
+        <section class="story-section">
             <h2>Our Founders' Story</h2>
             
-            <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 50px; margin: 30px 0;">
+            <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 50px; margin: 30px 0; box-shadow: 0 20px 60px rgba(26, 43, 61, 0.1);">
                 
                 <h3 style="font-family: 'Cinzel', serif; font-size: 2em; color: var(--gold-accent); margin-bottom: 30px; text-align: center;">
                     ✨ The Magic of Partnership ✨
@@ -405,7 +719,71 @@
                         "Two individuals catalyzing together to create something greater than the sum of their parts, united in pursuit of global positive impact."
                     </p>
                 </div>
-
+                
+                <h4 style="font-size: 1.6em; color: var(--aurora-purple); margin: 40px 0 25px; text-align: center; font-family: 'Cinzel', serif;">
+                    ✨ Where Magic Meets Technology ✨
+                </h4>
+                
+                <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    Their partnership represents something revolutionary: the perfect fusion of <strong>technical excellence and emotional intelligence</strong>. Where Coryn builds the bridges between imagination and reality through code, apps, and seamless user experiences, Cynarra breathes soul into every pixel with stories that touch hearts and transform lives.
+                </p>
+                
+                <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    Together, they discovered something profound: <em>technology without story is just efficiency, but story without technology is just dreams</em>. When you combine Coryn's ability to make complex systems feel effortless with Cynarra's gift for creating characters that feel like family, you get something unprecedented.
+                </p>
+                
+                <div style="background: rgba(212, 175, 55, 0.1); padding: 30px; border-radius: 15px; border: 1px solid var(--gold-accent); margin: 30px 0;">
+                    <h4 style="font-size: 1.4em; color: var(--gold-accent); margin-bottom: 20px; text-align: center;">
+                        🌍 A Vision Born from Parenthood
+                    </h4>
+                    <p style="line-height: 1.8; margin-bottom: 15px;">
+                        As parents themselves, Coryn and Cynarra witnessed the daily struggles families face—the endless battles over behavior, the guilt-ridden "naughty lists," the feeling that traditional parenting tools were missing something essential. They saw children being treated as problems to solve rather than people to understand.
+                    </p>
+                    <p style="line-height: 1.8;">
+                        That's when the magic happened. One evening, Cynarra shared a profound insight: <em>"You're not judging the action, you're judging the intent."</em> This single sentence became the foundation of everything they would build together. It sparked the vision for Operation Lumina—a complete reimagining of how we support children's growth.
+                    </p>
+                </div>
+                
+                <h4 style="font-size: 1.6em; color: var(--aurora-purple); margin: 40px 0 25px; text-align: center; font-family: 'Cinzel', serif;">
+                    🎄 The Birth of Magic By Design
+                </h4>
+                
+                <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    From that insight, Aurora Frost was born. Not just a character, but a philosophy. Cynarra crafted Aurora's complete backstory—a water elf who transformed from surveillance expert to children's champion, who learned that growth matters more than perfection, that intent matters more than action.
+                </p>
+                
+                <p style="font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;">
+                    Then Coryn took that beautiful story and made it real. Building the technology that would let children track their own growth, creating the 3D star vessel that fills with golden light, designing the mission cards with QR codes that connect physical and digital worlds. Every technical decision guided by one question: <em>Does this help families connect, or does it create distance?</em>
+                </p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 40px 0;">
+                    <div style="padding: 25px; background: rgba(78, 204, 163, 0.08); border-radius: 15px; border-left: 4px solid var(--aurora-green);">
+                        <div style="font-size: 1.2em; color: var(--aurora-green); font-weight: 600; margin-bottom: 15px;">
+                            💫 What Coryn Brings:
+                        </div>
+                        <ul style="line-height: 1.8; color: var(--ice-blue);">
+                            <li>10+ years hospitality design expertise</li>
+                            <li>App development & technology integration</li>
+                            <li>User experience that feels intuitive</li>
+                            <li>Systems that scale beautifully</li>
+                            <li>Operations & business strategy</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="padding: 25px; background: rgba(157, 132, 183, 0.08); border-radius: 15px; border-left: 4px solid var(--aurora-purple);">
+                        <div style="font-size: 1.2em; color: var(--aurora-purple); font-weight: 600; margin-bottom: 15px;">
+                            ✨ What Cynarra Brings:
+                        </div>
+                        <ul style="line-height: 1.8; color: var(--ice-blue);">
+                            <li>Master storytelling & character creation</li>
+                            <li>Emotional intelligence in every detail</li>
+                            <li>Brand philosophy that resonates</li>
+                            <li>International business perspective</li>
+                            <li>Creative direction & aesthetic vision</li>
+                        </ul>
+                    </div>
+                </div>
+                
                 <h4 style="font-size: 1.6em; color: var(--gold-accent); margin: 40px 0 25px; text-align: center; font-family: 'Cinzel', serif;">
                     🌟 Building the "By Design" Family
                 </h4>
@@ -439,7 +817,7 @@
                         <div style="font-size: 0.95em; color: var(--ice-blue);">Thoughtful animal services</div>
                     </div>
                 </div>
-
+                
                 <div style="background: linear-gradient(135deg, rgba(78, 204, 163, 0.1), rgba(212, 175, 55, 0.1)); padding: 40px; border-radius: 20px; border: 2px solid var(--gold-accent); margin: 40px 0; text-align: center;">
                     <h4 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--gold-accent); margin-bottom: 20px;">
                         💝 Our Shared Mission
@@ -448,21 +826,34 @@
                         "Children thrive when they're treated as the heroes of their own stories."
                     </p>
                     <p style="font-size: 1.1em; line-height: 1.8;">
-                        Together, Coryn and Cynarra are building a world where judgment is replaced with empowerment, surveillance with support, and punishment with partnership. Where every child recognizes their capacity to make a positive difference.
+                        Together, Coryn and Cynarra are building a world where judgment is replaced with empowerment, surveillance with support, and punishment with partnership. Where every child recognizes their capacity to make a positive difference. Where families can thrive without the pressure of perfection.
+                    </p>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin-top: 20px;">
+                        Operation Lumina is just the beginning. It's proof that when you combine technical excellence with emotional intelligence, when you let magic guide technology and technology amplify magic—you create something that changes lives.
                     </p>
                 </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <p style="font-size: 1.3em; color: var(--aurora-pink); font-style: italic; line-height: 1.8;">
+                        "Two hearts, one vision: <br/>
+                        Transform how the world sees children—<br/>
+                        Not as problems to solve, but as heroes to celebrate."
+                    </p>
+                </div>
+                
             </div>
         </section>
 
-        <!-- Field Kit Section -->
-        <section class="story-section" id="field-kit">
+        <section class="cta-section">
             <div style="text-align: center; margin-bottom: 40px;">
-                <img src="Operation_Lumina_Logo.png" alt="Operation Lumina" style="max-width: 400px; width: 80%; filter: drop-shadow(0 8px 20px rgba(78, 204, 163, 0.3));">
+                <img src="Operation_Lumina_Logo.png" alt="Operation Lumina" style="max-width: 400px; width: 80%; height: auto; filter: drop-shadow(0 8px 20px rgba(78, 204, 163, 0.3));">
             </div>
             
-            <h2>Join Operation Lumina</h2>
+            <h2 style="font-family: 'Cinzel', serif; font-size: 2.5em; color: var(--aurora-green); margin-bottom: 20px;">
+                Join Operation Lumina
+            </h2>
             
-            <!-- Limited Edition Banner -->
+            <!-- Founding Agent Limit Banner -->
             <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(232, 180, 217, 0.2)); border: 2px solid var(--gold-accent); border-radius: 15px; padding: 25px; margin: 30px auto; max-width: 600px;">
                 <div style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--gold-accent); margin-bottom: 15px;">
                     🌟 LIMITED EDITION FOUNDING AGENT KITS 🌟
@@ -478,7 +869,7 @@
                 </div>
             </div>
 
-            <p style="font-size: 1.3em; margin-bottom: 30px; color: var(--ice-blue); max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6; text-align: center;">
+            <p style="font-size: 1.3em; margin-bottom: 30px; color: var(--ice-blue); max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
                 Own a piece of magic. Become a <strong>Founding Agent</strong> and receive the exclusive Aurora Frost Limited Edition doll with your complete Field Kit.
             </p>
 
@@ -551,69 +942,16 @@
             </div>
 
             <!-- CTA Buttons -->
-            <div id="ctaButtons" style="text-align: center; margin-top: 40px;">
-                <a href="https://buy.stripe.com/6oU6pI2kz95g31Te9C2kw00" class="cta-button" id="foundingAgentBtn" style="font-size: 1.3em; padding: 20px 50px;">
+            <div id="ctaButtons">
+                <a href="https://buy.stripe.com/6oUbJ12kz95g31Te9C2kw00" class="cta-button" id="foundingAgentBtn" style="font-size: 1.3em; padding: 20px 50px;">
                     🌟 Secure Your Limited Edition Kit - $147 🌟
                 </a>
                 <div style="font-size: 0.9em; color: var(--aurora-pink); margin-top: 15px; margin-bottom: 20px;">
                     Founding Agent #<span id="nextAgentNumber">1</span> • Only <span id="spotsLeftBottom">50</span> Available
                 </div>
-                
-                <!-- Support Tiers -->
-                <div style="margin-top: 40px; padding-top: 40px; border-top: 2px solid rgba(78, 204, 163, 0.3);">
-                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.8em; color: var(--aurora-green); margin-bottom: 20px;">
-                        Or Support the Mission
-                    </h3>
-                    <p style="font-size: 1.1em; color: var(--ice-blue); margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">
-                        Help bring Operation Lumina to life and get early access, updates, and credit toward your Field Kit!
-                    </p>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto;">
-                        <div style="background: rgba(78, 204, 163, 0.05); border: 2px solid var(--aurora-green); border-radius: 15px; padding: 25px; text-align: center;">
-                            <div style="font-size: 2em; margin-bottom: 10px;">⭐</div>
-                            <div style="font-family: 'Cinzel', serif; font-size: 1.3em; color: var(--aurora-green); margin-bottom: 10px;">Believer</div>
-                            <div style="font-size: 2em; color: var(--gold-accent); margin: 10px 0;">$5</div>
-                            <div style="font-size: 0.95em; color: var(--ice-blue); margin-bottom: 20px;">
-                                • Unlock story<br>
-                                • Audio narration<br>
-                                • Development updates
-                            </div>
-                            <a href="https://buy.stripe.com/bJe9AT4sH6X8fOF5D62kw01" class="cta-button" style="font-size: 1em; padding: 12px 25px;">
-                                Support - $5
-                            </a>
-                        </div>
-                        
-                        <div style="background: rgba(157, 132, 183, 0.05); border: 2px solid var(--aurora-purple); border-radius: 15px; padding: 25px; text-align: center;">
-                            <div style="font-size: 2em; margin-bottom: 10px;">✨</div>
-                            <div style="font-family: 'Cinzel', serif; font-size: 1.3em; color: var(--aurora-purple); margin-bottom: 10px;">Hero</div>
-                            <div style="font-size: 2em; color: var(--gold-accent); margin: 10px 0;">$25</div>
-                            <div style="font-size: 0.95em; color: var(--ice-blue); margin-bottom: 20px;">
-                                Everything above, plus:<br>
-                                • $10 Kit credit<br>
-                                • Early access<br>
-                                • Your name listed
-                            </div>
-                            <a href="https://buy.stripe.com/cNieVd4sH95g0TLaXq2kw02" class="cta-button" style="font-size: 1em; padding: 12px 25px; background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink));">
-                                Support - $25
-                            </a>
-                        </div>
-                        
-                        <div style="background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold-accent); border-radius: 15px; padding: 25px; text-align: center;">
-                            <div style="font-size: 2em; margin-bottom: 10px;">💎</div>
-                            <div style="font-family: 'Cinzel', serif; font-size: 1.3em; color: var(--gold-accent); margin-bottom: 10px;">Founder</div>
-                            <div style="font-size: 2em; color: var(--gold-accent); margin: 10px 0;">$50</div>
-                            <div style="font-size: 0.95em; color: var(--ice-blue); margin-bottom: 20px;">
-                                Everything above, plus:<br>
-                                • $50 Kit credit<br>
-                                • VIP community<br>
-                                • Feature input
-                            </div>
-                            <a href="https://buy.stripe.com/6oU9ATaR5dlw45X1mQ2kw03" class="cta-button" style="font-size: 1em; padding: 12px 25px; background: linear-gradient(135deg, var(--gold-accent), var(--aurora-pink));">
-                                Support - $50
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <a href="operation-lumina-app.html" class="cta-button" style="background: linear-gradient(135deg, var(--aurora-purple), var(--gold-accent)); margin-top: 15px;">
+                    Preview the App (Free)
+                </a>
             </div>
 
             <!-- Sold Out Message (Hidden by default) -->
@@ -625,168 +963,131 @@
                 <p style="font-size: 1.3em; color: var(--ice-blue); margin-bottom: 25px;">
                     Thank you to our incredible first 50 Founding Agents!
                 </p>
-                <a href="#waitlist" class="cta-button">
+                <p style="font-size: 1.15em; color: var(--aurora-purple); margin-bottom: 20px;">
+                    The exclusive Aurora Frost doll and numbered kits are no longer available.
+                </p>
+                <p style="font-size: 1.1em; color: var(--ice-blue); margin-bottom: 30px;">
+                    Join our waitlist to be notified when standard Operation Lumina kits become available (without exclusive doll - $97).
+                </p>
+                <a href="#waitlist" class="cta-button" style="background: linear-gradient(135deg, var(--aurora-purple), var(--aurora-pink));">
                     Join the Waitlist
                 </a>
             </div>
         </section>
 
-        <!-- Waitlist Section -->
-        <section class="story-section" id="waitlist">
-            <h2>Join the Waitlist</h2>
-            
-            <p style="text-align: center; font-size: 1.2em; margin: 30px 0;">
-                Want to be notified when more kits become available or when the app launches? Join our waitlist!
-            </p>
+        <script>
+            // Update spot counter (manually change these numbers as you sell)
+            const TOTAL_SPOTS = 50;
+            const SPOTS_SOLD = 0; // UPDATE THIS NUMBER AS YOU SELL!
 
-            <div style="max-width: 600px; margin: 0 auto; background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 15px; border: 2px solid var(--aurora-green);">
-                <form id="waitlist-form" style="display: flex; flex-direction: column; gap: 20px;">
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; color: var(--aurora-green); font-weight: 600;">Parent/Guardian Name *</label>
-                        <input type="text" id="name" required style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--aurora-green); background: rgba(255, 255, 255, 0.9); font-size: 1em; color: var(--deep-blue); font-family: 'Cormorant Garamond', serif;">
-                    </div>
+            function updateSpotCounter() {
+                const spotsRemaining = TOTAL_SPOTS - SPOTS_SOLD;
+                
+                document.getElementById('spotsRemaining').textContent = TOTAL_SPOTS;
+                document.getElementById('spotsTaken').textContent = SPOTS_SOLD;
+                document.getElementById('spotsLeft').textContent = spotsRemaining;
+                document.getElementById('spotsLeftBottom').textContent = spotsRemaining;
+                document.getElementById('nextAgentNumber').textContent = SPOTS_SOLD + 1;
 
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; color: var(--aurora-green); font-weight: 600;">Email Address *</label>
-                        <input type="email" id="email" required style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--aurora-green); background: rgba(255, 255, 255, 0.9); font-size: 1em; color: var(--deep-blue); font-family: 'Cormorant Garamond', serif;">
-                    </div>
+                // Show sold out message if all spots taken
+                if (SPOTS_SOLD >= TOTAL_SPOTS) {
+                    document.getElementById('ctaButtons').style.display = 'none';
+                    document.getElementById('soldOutMessage').style.display = 'block';
+                    document.querySelector('.cta-section h2').textContent = 'Founding Agents Program';
+                }
+            }
 
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; color: var(--aurora-green); font-weight: 600;">Child's Age *</label>
-                        <select id="child-age" required style="width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--aurora-green); background: rgba(255, 255, 255, 0.9); font-size: 1em; color: var(--deep-blue); font-family: 'Cormorant Garamond', serif;">
-                            <option value="">Select age...</option>
-                            <option value="5">5 years old</option>
-                            <option value="6">6 years old</option>
-                            <option value="7">7 years old</option>
-                            <option value="8">8 years old</option>
-                            <option value="9">9 years old</option>
-                            <option value="10">10 years old</option>
-                            <option value="11">11 years old</option>
-                            <option value="12">12 years old</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="cta-button" style="width: 100%; border: none; margin-top: 10px;">
-                        Join the Waitlist
-                    </button>
-                </form>
-
-                <div id="waitlist-success" style="display: none; text-align: center; padding: 30px;">
-                    <p style="font-size: 1.4em; color: var(--aurora-green); margin-bottom: 15px;">
-                        ✓ You're on the list!
-                    </p>
-                    <p style="font-size: 1.1em; color: var(--ice-blue);">
-                        We'll notify you about Field Kits and app launch. Check your email for confirmation!
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer with CocynD -->
-        <footer style="background: rgba(10, 22, 40, 0.8); backdrop-filter: blur(10px); border-top: 2px solid rgba(78, 204, 163, 0.2); padding: 50px 20px 30px; margin-top: 100px; text-align: center;">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <div style="margin-bottom: 25px;">
-                    <img src="CocynD_Logo.png" alt="CocynD LLC" style="max-width: 300px; width: 80%; height: auto; opacity: 0.9;">
-                </div>
-                <div style="font-size: 0.95em; color: var(--ice-blue); line-height: 1.8; margin-bottom: 20px;">
-                    Magic By Design is a proud division of CocynD LLC
-                </div>
-                <div style="font-size: 0.9em; color: var(--ice-blue); opacity: 0.7; margin-bottom: 15px;">
-                    <strong>Co</strong> + <strong>Cyn</strong> + <strong>D</strong> • United in pursuit of global positive impact
-                </div>
-                <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 25px; font-size: 0.9em; color: var(--aurora-green);">
-                    <div>✨ Magic By Design</div>
-                    <div>💎 Coco By Design</div>
-                    <div>✨ Sparkle By Design</div>
-                    <div>🐾 Bark By Design</div>
-                </div>
-                <div style="border-top: 1px solid rgba(78, 204, 163, 0.2); padding-top: 20px; font-size: 0.85em; color: var(--ice-blue); opacity: 0.6;">
-                    © 2025 CocynD LLC. All rights reserved. | Operation Lumina™ | Magic By Design™
-                </div>
-            </div>
-        </footer>
+            updateSpotCounter();
+        </script>
     </div>
 
-    <script>
-        // ========== CONFIGURATION ==========
-        const TOTAL_SPOTS = 50;
-        const SPOTS_SOLD = 0; // UPDATE THIS AS YOU SELL!
-        const WAITLIST_FORM_ID = 'xqarrqok'; // Already configured
-
-        // ========== SPOT COUNTER ==========
-        function updateSpotCounter() {
-            const spotsRemaining = TOTAL_SPOTS - SPOTS_SOLD;
-            
-            document.getElementById('spotsRemaining').textContent = TOTAL_SPOTS;
-            document.getElementById('spotsTaken').textContent = SPOTS_SOLD;
-            document.getElementById('spotsLeft').textContent = spotsRemaining;
-            document.getElementById('spotsLeftBottom').textContent = spotsRemaining;
-            document.getElementById('nextAgentNumber').textContent = SPOTS_SOLD + 1;
-
-            if (SPOTS_SOLD >= TOTAL_SPOTS) {
-                document.getElementById('ctaButtons').style.display = 'none';
-                document.getElementById('soldOutMessage').style.display = 'block';
-            }
-        }
-
-        updateSpotCounter();
-
-        // ========== WAITLIST FORM ==========
-        document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                childAge: document.getElementById('child-age').value,
-                timestamp: new Date().toISOString()
-            };
-            
-            try {
-                const response = await fetch(`https://formspree.io/f/${WAITLIST_FORM_ID}`, {
-                    method: 'POST',
-                    body: JSON.stringify(formData),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                if (response.ok) {
-                    this.style.display = 'none';
-                    document.getElementById('waitlist-success').style.display = 'block';
-                } else {
-                    alert('Something went wrong. Please email us at info@magicbydesign.ai');
-                }
-            } catch (error) {
-                alert('Please check your connection and try again.');
-            }
-        });
-
-        // ========== FLOATING SNOW ==========
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.innerHTML = '❄';
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
-            snowflake.style.opacity = Math.random();
-            document.body.appendChild(snowflake);
-            setTimeout(() => snowflake.remove(), 8000);
-        }
-
-        setInterval(createSnowflake, 300);
-        for (let i = 0; i < 15; i++) {
-            setTimeout(createSnowflake, i * 200);
-        }
-
-        // ========== SMOOTH SCROLLING ==========
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+    <!-- Footer with CocynD Logo -->
+    <footer style="background: rgba(10, 22, 40, 0.8); backdrop-filter: blur(10px); border-top: 2px solid rgba(78, 204, 163, 0.2); padding: 50px 20px 30px; margin-top: 100px; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="margin-bottom: 25px;">
+                <img src="CocynD_Logo.png" alt="CocynD LLC" style="max-width: 300px; width: 80%; height: auto; opacity: 0.9;">
+            </div>
+            <div style="font-size: 0.95em; color: var(--ice-blue); line-height: 1.8; margin-bottom: 20px;">
+                Magic By Design is a proud division of CocynD LLC
+            </div>
+            <div style="font-size: 0.9em; color: var(--ice-blue); opacity: 0.7; margin-bottom: 15px;">
+                <strong>Co</strong> + <strong>Cyn</strong> + <strong>D</strong> • United in pursuit of global positive impact
+            </div>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 25px; font-size: 0.9em; color: var(--aurora-green);">
+                <div>✨ Magic By Design</div>
+                <div>💎 Coco By Design</div>
+                <div>✨ Sparkle By Design</div>
+                <div>🐾 Bark By Design</div>
+            </div>
+            <div style="border-top: 1px solid rgba(78, 204, 163, 0.2); padding-top: 20px; font-size: 0.85em; color: var(--ice-blue); opacity: 0.6;">
+                © 2025 CocynD LLC. All rights reserved. | Operation Lumina™ | Magic By Design™
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
+
+    <script>
+        // ========== BOOK FUNCTIONS ==========
+        let bookOpen = false;
+        
+        function openBook() {
+            const cover = document.getElementById('book-cover');
+            const pages = document.getElementById('book-pages');
+            cover.style.transform = 'rotateY(-160deg)';
+            setTimeout(() => {
+                pages.style.opacity = '1';
+            }, 400);
+            bookOpen = true;
+        }
+        
+        function closeBook() {
+            const cover = document.getElementById('book-cover');
+            const pages = document.getElementById('book-pages');
+            pages.style.opacity = '0';
+            setTimeout(() => {
+                cover.style.transform = 'rotateY(0deg)';
+            }, 300);
+            bookOpen = false;
+        }
+
+        // ========== AUDIO PLAYER ==========
+        let currentAudio = null;
+
+        function playAudio(audioId) {
+            const audio = document.getElementById('audio-' + audioId);
+            const icon = document.getElementById('icon-' + audioId);
+            
+            if (!audio) {
+                alert('Audio file not yet available. Coming soon!');
+                return;
+            }
+            
+            // Stop currently playing audio
+            if (currentAudio && currentAudio !== audio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                const oldIcons = document.querySelectorAll('.audio-player-btn span');
+                oldIcons.forEach(i => i.textContent = '▶️');
+            }
+            
+            // Toggle play/pause
+            if (audio.paused) {
+                audio.play().catch(e => {
+                    console.log('Audio not available yet');
+                    alert('Audio file coming soon! Add files to /audio/ folder.');
+                });
+                icon.textContent = '⏸️';
+                currentAudio = audio;
+            } else {
+                audio.pause();
+                icon.textContent = '▶️';
+            }
+            
+            // Reset on end
+            audio.onended = function() {
+                icon.textContent = '▶️';
+                currentAudio = null;
+            };
+        }
+    </script>
