@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Aiyana Kokopelli - Operation Lumina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Aiyana Hero Section */
+        .aiyana-hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #2c1a1a 0%, #3d2616 100%);
+            overflow: hidden;
+        }
+
+        .aiyana-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 87, 34, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 152, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Animated Fire Particles */
+        .fire-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(255, 152, 0, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float-up 8s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        .aiyana-container {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .aiyana-image-section {
+            position: relative;
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .aiyana-image-frame {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(255, 87, 34, 0.3);
+            border: 3px solid rgba(255, 152, 0, 0.4);
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #2c1a1a 0%, #3d2616 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .aiyana-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(80px, 15vw, 150px);
+            position: relative;
+        }
+
+        .fire-circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 3px solid rgba(255, 152, 0, 0.3);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fire-circle::before {
+            content: '🔥';
+            position: absolute;
+            font-size: 24px;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .aiyana-glow {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: radial-gradient(circle, rgba(255, 152, 0, 0.3) 0%, transparent 70%);
+            animation: pulse-fire 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes pulse-fire {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .aiyana-content {
+            padding: 40px;
+        }
+
+        .aiyana-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 87, 34, 0.2);
+            border: 2px solid rgba(255, 152, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff9800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .aiyana-title {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .aiyana-subtitle {
+            font-size: clamp(18px, 2.5vw, 24px);
+            color: #ff9800;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .aiyana-meaning {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #b0b0b0;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px solid rgba(255, 152, 0, 0.4);
+        }
+
+        .aiyana-description {
+            font-size: clamp(16px, 2.5vw, 20px);
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 40px;
+        }
+
+        .aiyana-description p {
+            margin-bottom: 20px;
+        }
+
+        .aiyana-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .aiyana-highlight {
+            background: rgba(255, 87, 34, 0.1);
+            border: 2px solid rgba(255, 152, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .aiyana-highlight:hover {
+            background: rgba(255, 87, 34, 0.2);
+            border-color: rgba(255, 152, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .aiyana-highlight-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .aiyana-highlight-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 8px;
+        }
+
+        .aiyana-highlight-text {
+            font-size: 14px;
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        /* Audio Player */
+        .aiyana-audio-player {
+            background: rgba(255, 87, 34, 0.15);
+            border: 2px solid rgba(255, 152, 0, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .aiyana-audio-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .play-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+        }
+
+        .play-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .audio-progress {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .audio-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .audio-time {
+            font-size: 14px;
+            color: #b0b0b0;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* CTA Button */
+        .aiyana-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 87, 34, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .aiyana-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 87, 34, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .aiyana-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .aiyana-image-section {
+                order: -1;
+            }
+
+            .aiyana-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .aiyana-hero {
+                padding: 20px;
+            }
+
+            .aiyana-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .audio-time {
+                text-align: center;
+            }
+
+            .fire-circle {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        /* Teachings Section */
+        .aiyana-teachings {
+            background: linear-gradient(135deg, #16213e 0%, #1a2c3d 100%);
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .teachings-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .teachings-title {
+            font-size: clamp(32px, 5vw, 48px);
+            color: #ff9800;
+            margin-bottom: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .teachings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .teaching-card {
+            background: rgba(255, 87, 34, 0.1);
+            border: 2px solid rgba(255, 152, 0, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .teaching-card:hover {
+            background: rgba(255, 87, 34, 0.15);
+            border-color: rgba(255, 152, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .teaching-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .teaching-name {
+            font-size: 24px;
+            color: #ff9800;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .teaching-description {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        /* Sacred Quote */
+        .sacred-quote {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255, 87, 34, 0.1);
+            border-left: 5px solid #ff9800;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        .quote-text {
+            font-size: clamp(20px, 3vw, 28px);
+            font-style: italic;
+            color: #e0e0e0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .quote-author {
+            font-size: 18px;
+            color: #ff9800;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Aiyana Hero Section -->
+    <section class="aiyana-hero">
+        <!-- Floating Fire Particles -->
+        <div class="fire-particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="fire-particle" style="left: 25%; animation-delay: 2s;"></div>
+        <div class="fire-particle" style="left: 40%; animation-delay: 4s;"></div>
+        <div class="fire-particle" style="left: 55%; animation-delay: 1s;"></div>
+        <div class="fire-particle" style="left: 70%; animation-delay: 3s;"></div>
+        <div class="fire-particle" style="left: 85%; animation-delay: 5s;"></div>
+
+        <div class="aiyana-container">
+            <!-- Image Section -->
+            <div class="aiyana-image-section">
+                <div class="aiyana-image-frame">
+                    <div class="aiyana-image-placeholder">
+                        <div class="fire-circle"></div>
+                        <span style="position: relative; z-index: 2;">🔥</span>
+                    </div>
+                    <div class="aiyana-glow"></div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="aiyana-content">
+                <div class="aiyana-badge">
+                    🔥 Sacred Fire Keeper
+                </div>
+                
+                <h1 class="aiyana-title">Aiyana Kokopelli</h1>
+                <h2 class="aiyana-subtitle">Spiritual Mentor & Wisdom Keeper</h2>
+                <p class="aiyana-meaning">
+                    Aiyana: "Eternal Blossom" • Kokopelli: "Sacred Fire Spirit"
+                </p>
+                
+                <div class="aiyana-description">
+                    <p>Hello, little one. I am Aiyana Kokopelli – eternal blossom and keeper of the sacred fire. For many generations, my people have been the keepers of sacred flames, tending not just the fire you see, but the fire that lives in all things.</p>
+                    
+                    <p>I taught Wrangler Jack that true strength comes from understanding your connection to all living things. That to protect nature, you must first listen to it. You are never too small to make a difference.</p>
+                </div>
+
+                <!-- Creator Credit -->
+                <div style="background: rgba(255, 87, 34, 0.15); border-left: 4px solid #ff9800; padding: 20px; border-radius: 10px; margin-bottom: 40px; font-size: 14px; color: #b0b0b0; font-style: italic;">
+                    <strong style="color: #ff9800;">Created by Coryn</strong> • Zuni Cultural Wisdom & Sacred Fire Philosophy
+                </div>
+
+                <!-- Audio Player -->
+                <div class="aiyana-audio-player">
+                    <div class="aiyana-audio-title">
+                        🎧 Hear Aiyana's Wisdom
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button" id="playButton" onclick="togglePlay()">
+                            <svg id="playIcon" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="audio-progress" id="progressBar" onclick="seek(event)">
+                            <div class="audio-progress-bar" id="progressFill"></div>
+                        </div>
+                        <div class="audio-time" id="timeDisplay">0:00 / 0:00</div>
+                    </div>
+                    <audio id="aiyanaAudio" src="aiyana-kokopelli-voice.mp3"></audio>
+                </div>
+
+                <!-- Highlights -->
+                <div class="aiyana-highlights">
+                    <div class="aiyana-highlight">
+                        <div class="aiyana-highlight-icon">🔥</div>
+                        <div class="aiyana-highlight-title">Fire Keeper</div>
+                        <div class="aiyana-highlight-text">Tends the sacred flames that connect all life</div>
+                    </div>
+                    <div class="aiyana-highlight">
+                        <div class="aiyana-highlight-icon">🌿</div>
+                        <div class="aiyana-highlight-title">Zuni Elder</div>
+                        <div class="aiyana-highlight-text">Shares indigenous wisdom and traditional ways</div>
+                    </div>
+                    <div class="aiyana-highlight">
+                        <div class="aiyana-highlight-icon">⚖️</div>
+                        <div class="aiyana-highlight-title">Balance Teacher</div>
+                        <div class="aiyana-highlight-text">Guides understanding of elemental harmony</div>
+                    </div>
+                    <div class="aiyana-highlight">
+                        <div class="aiyana-highlight-icon">💫</div>
+                        <div class="aiyana-highlight-title">Spiritual Guide</div>
+                        <div class="aiyana-highlight-text">Mentors protectors in sacred responsibility</div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <a href="#join" class="aiyana-cta">
+                    Join the Circle
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teachings Section -->
+    <section class="aiyana-teachings">
+        <div class="teachings-content">
+            <h2 class="teachings-title">The Four Sacred Directions</h2>
+            
+            <div class="teachings-grid">
+                <div class="teaching-card">
+                    <div class="teaching-icon">🌅</div>
+                    <div class="teaching-name">East - New Beginnings</div>
+                    <div class="teaching-description">
+                        Like the sunrise, the East brings fresh starts, new opportunities, and the courage to begin your journey as a protector.
+                    </div>
+                </div>
+
+                <div class="teaching-card">
+                    <div class="teaching-icon">☀️</div>
+                    <div class="teaching-name">South - Growth & Warmth</div>
+                    <div class="teaching-description">
+                        Like summer, the South brings growth, warmth, and the energy to nurture your inner fire and help others bloom.
+                    </div>
+                </div>
+
+                <div class="teaching-card">
+                    <div class="teaching-icon">🌇</div>
+                    <div class="teaching-name">West - Reflection & Wisdom</div>
+                    <div class="teaching-description">
+                        Like the sunset, the West brings reflection, wisdom from experience, and understanding of life's deeper meanings.
+                    </div>
+                </div>
+
+                <div class="teaching-card">
+                    <div class="teaching-icon">❄️</div>
+                    <div class="teaching-name">North - Strength & Endurance</div>
+                    <div class="teaching-description">
+                        Like winter, the North brings strength, endurance, and the resilience to protect what matters through any challenge.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sacred Quote -->
+            <div class="sacred-quote">
+                <div class="quote-text">
+                    "You carry a sacred fire inside you. Feed it with good choices. Protect it from winds that would blow it out. Share its warmth with others."
+                </div>
+                <div class="quote-author">— Aiyana Kokopelli</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const audio = document.getElementById('aiyanaAudio');
+        const playButton = document.getElementById('playButton');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const progressFill = document.getElementById('progressFill');
+        const progressBar = document.getElementById('progressBar');
+        const timeDisplay = document.getElementById('timeDisplay');
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                audio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = progress + '%';
+            timeDisplay.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+        });
+
+        audio.addEventListener('ended', () => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            progressFill.style.width = '0%';
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            timeDisplay.textContent = '0:00 / ' + formatTime(audio.duration);
+        });
+
+        function seek(event) {
+            const rect = progressBar.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const percentage = x / rect.width;
+            audio.currentTime = percentage * audio.duration;
+        }
+
+        // Prevent context menu on audio element
+        audio.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>

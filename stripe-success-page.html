@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Operation Lumina! - Payment Successful</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            max-width: 800px;
+            width: 100%;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a7b 100%);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-icon {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .success-title {
+            font-size: clamp(32px, 6vw, 48px);
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .success-subtitle {
+            font-size: clamp(18px, 3vw, 24px);
+            color: #60a5fa;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .agent-badge {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .agent-badge-title {
+            font-size: 14px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .agent-number {
+            font-size: 36px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .confirmation-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        .confirmation-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .confirmation-row:last-child {
+            border-bottom: none;
+        }
+
+        .confirmation-label {
+            font-size: 14px;
+            color: #b0b0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .confirmation-value {
+            font-size: 16px;
+            color: #e0e0e0;
+            font-weight: bold;
+        }
+
+        .next-steps {
+            margin-bottom: 40px;
+        }
+
+        .next-steps-title {
+            font-size: 28px;
+            color: #ffd700;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 20px;
+            color: #ffd700;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .step-description {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .important-note {
+            background: rgba(255, 87, 34, 0.2);
+            border-left: 4px solid #ff5722;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .important-note-title {
+            font-size: 18px;
+            color: #ff9800;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .important-note-text {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .email-note {
+            background: rgba(96, 165, 250, 0.2);
+            border: 2px solid rgba(96, 165, 250, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .email-note-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .email-note-text {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a1a2e;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .support-box {
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .support-title {
+            font-size: 16px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+
+        .support-email {
+            font-size: 18px;
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .support-email:hover {
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 40px 20px;
+            }
+
+            .step {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .confirmation-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="content">
+            <!-- Success Icon -->
+            <div class="success-icon">
+                <div class="success-icon-circle">
+                    ⭐
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="success-title">Welcome to Operation Lumina!</h1>
+            <p class="success-subtitle">Your Founding Agent Field Kit is Confirmed</p>
+
+            <!-- Agent Badge -->
+            <div class="agent-badge">
+                <div class="agent-badge-title">You are Founding Agent</div>
+                <div class="agent-number">#[ORDER NUMBER]</div>
+            </div>
+
+            <!-- Confirmation Details -->
+            <div class="confirmation-box">
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Order Total</span>
+                    <span class="confirmation-value">$147.00</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Payment Status</span>
+                    <span class="confirmation-value">✓ Paid in Full</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Kit Status</span>
+                    <span class="confirmation-value">Processing</span>
+                </div>
+                <div class="confirmation-row">
+                    <span class="confirmation-label">Expected Ship Date</span>
+                    <span class="confirmation-value">Within 5-7 Business Days</span>
+                </div>
+            </div>
+
+            <!-- Email Confirmation -->
+            <div class="email-note">
+                <div class="email-note-icon">📧</div>
+                <div class="email-note-text">
+                    <strong>Check Your Email!</strong><br>
+                    A confirmation email with your order details and tracking information has been sent to your email address.
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h2 class="next-steps-title">🌟 What Happens Next?</h2>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Download the Mobile App</div>
+                        <div class="step-description">
+                            While you wait for your physical Field Kit to arrive, download the Operation Lumina mobile app to start exploring missions and earning your first gold stars! Available on iOS and Android.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Watch for Your Kit</div>
+                        <div class="step-description">
+                            Your handmade Aurora Frost doll and Founding Agent Field Kit will ship within 5-7 business days. You'll receive a tracking number via email once it ships.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Activate Your Physical Star Token</div>
+                        <div class="step-description">
+                            Once your kit arrives, scan the QR code on your 3D star token to sync it with your digital progress. Watch your physical star fill with light as you complete missions!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Begin Your First Mission</div>
+                        <div class="step-description">
+                            Start with Aurora's Smile Mission - make someone smile who looks sad or upset. Complete it, get your parent's signature, and earn your first gold star!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Note -->
+            <div class="important-note">
+                <div class="important-note-title">
+                    ⚡ Important: Limited Edition Status
+                </div>
+                <div class="important-note-text">
+                    You are one of only <strong>50 Founding Agents</strong> who will receive this exclusive Field Kit. Your agent number is unique and will never be issued again. This is a collector's item and a piece of Operation Lumina history!
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="button-container">
+                <a href="https://magicbydesign.com" class="cta-button">
+                    Return to Magic By Design
+                    <span>→</span>
+                </a>
+            </div>
+
+            <!-- Support Box -->
+            <div class="support-box">
+                <div class="support-title">Questions or need help?</div>
+                <a href="mailto:support@magicbydesign.com" class="support-email">
+                    support@magicbydesign.com
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Optional: Add confetti effect on page load
+        function createConfetti() {
+            const colors = ['#ffd700', '#60a5fa', '#ff9800', '#4ade80'];
+            const confettiCount = 50;
+
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-10px';
+                    confetti.style.opacity = '1';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.zIndex = '9999';
+                    document.body.appendChild(confetti);
+
+                    const animation = confetti.animate([
+                        { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                        { transform: `translateY(${window.innerHeight + 20}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                    ], {
+                        duration: 3000 + Math.random() * 2000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+
+                    animation.onfinish = () => confetti.remove();
+                }, i * 30);
+            }
+        }
+
+        // Trigger confetti on load
+        window.addEventListener('load', () => {
+            setTimeout(createConfetti, 500);
+        });
+    </script>
+</body>
+</html>

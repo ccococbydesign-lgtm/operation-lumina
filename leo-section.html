@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Leo - The Boy Who Changed Everything - Operation Lumina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Leo Hero Section */
+        .leo-hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+            overflow: hidden;
+        }
+
+        .leo-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(96, 165, 250, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Floating water droplets */
+        .water-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float-drop 10s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes float-drop {
+            0% {
+                transform: translateY(-100px) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-30px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .leo-container {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .leo-image-section {
+            position: relative;
+            animation: gentleFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .leo-image-frame {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(59, 130, 246, 0.3);
+            border: 3px solid rgba(96, 165, 250, 0.4);
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a7b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .leo-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(100px, 18vw, 180px);
+            position: relative;
+        }
+
+        .wave-circle {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            border-radius: 50%;
+            animation: ripple 3s infinite ease-out;
+        }
+
+        .wave-circle:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .wave-circle:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        .leo-glow {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.3) 0%, transparent 70%);
+            animation: pulse-water 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes pulse-water {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .leo-content {
+            padding: 40px;
+        }
+
+        .leo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 2px solid rgba(96, 165, 250, 0.5);
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #60a5fa;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .leo-title {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: bold;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .leo-subtitle {
+            font-size: clamp(20px, 3vw, 28px);
+            color: #60a5fa;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .leo-age {
+            font-size: clamp(14px, 2vw, 16px);
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        .leo-description {
+            font-size: clamp(16px, 2.5vw, 20px);
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 40px;
+        }
+
+        .leo-description p {
+            margin-bottom: 20px;
+        }
+
+        .leo-story-highlight {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #60a5fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #a0c4ff;
+            line-height: 1.8;
+        }
+
+        .leo-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .leo-highlight {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .leo-highlight:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .leo-highlight-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .leo-highlight-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 8px;
+        }
+
+        .leo-highlight-text {
+            font-size: 14px;
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        /* Audio Player */
+        .leo-audio-player {
+            background: rgba(59, 130, 246, 0.15);
+            border: 2px solid rgba(96, 165, 250, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .leo-audio-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .play-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .play-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .audio-progress {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .audio-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .audio-time {
+            font-size: 14px;
+            color: #b0b0b0;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* CTA Button */
+        .leo-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .leo-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .leo-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .leo-image-section {
+                order: -1;
+            }
+
+            .leo-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .leo-hero {
+                padding: 20px;
+            }
+
+            .leo-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .audio-time {
+                text-align: center;
+            }
+
+            .wave-circle {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        /* The Question Section */
+        .leo-question {
+            background: linear-gradient(135deg, #16213e 0%, #1a2c3d 100%);
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .question-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .question-label {
+            font-size: 18px;
+            color: #60a5fa;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: clamp(28px, 5vw, 48px);
+            font-style: italic;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            padding: 50px 40px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .question-text::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            font-size: 100px;
+            color: rgba(96, 165, 250, 0.3);
+            font-family: Georgia, serif;
+        }
+
+        .question-impact {
+            font-size: 20px;
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+
+        /* Timeline Section */
+        .leo-timeline {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+            padding: 100px 20px;
+        }
+
+        .timeline-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-title {
+            font-size: clamp(32px, 5vw, 48px);
+            color: #60a5fa;
+            margin-bottom: 60px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-marker {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .timeline-content-box {
+            flex: 1;
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .timeline-age {
+            font-size: 14px;
+            color: #60a5fa;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-event {
+            font-size: 20px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Leo Hero Section -->
+    <section class="leo-hero">
+        <!-- Floating Water Particles -->
+        <div class="water-particle" style="left: 15%; animation-delay: 0s;"></div>
+        <div class="water-particle" style="left: 30%; animation-delay: 3s;"></div>
+        <div class="water-particle" style="left: 45%; animation-delay: 6s;"></div>
+        <div class="water-particle" style="left: 60%; animation-delay: 2s;"></div>
+        <div class="water-particle" style="left: 75%; animation-delay: 5s;"></div>
+        <div class="water-particle" style="left: 90%; animation-delay: 8s;"></div>
+
+        <div class="leo-container">
+            <!-- Image Section -->
+            <div class="leo-image-section">
+                <div class="leo-image-frame">
+                    <div class="leo-image-placeholder">
+                        <div class="wave-circle"></div>
+                        <div class="wave-circle"></div>
+                        <div class="wave-circle"></div>
+                        <span style="position: relative; z-index: 2;">🌊</span>
+                    </div>
+                    <div class="leo-glow"></div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="leo-content">
+                <div class="leo-badge">
+                    ⭐ Founding Agent #001
+                </div>
+                
+                <h1 class="leo-title">Leo</h1>
+                <h2 class="leo-subtitle">The Boy Who Changed Everything</h2>
+                <p class="leo-age">Age 9 • First Agent of Operation Lumina</p>
+                
+                <div class="leo-description">
+                    <p>Hi. My name's Leo. You might have heard about me in Aurora's story. I'm the boy she saved from drowning when I was seven years old.</p>
+                    
+                    <p>After Aurora pulled me from the ocean, I asked her a question that changed both of our lives: <strong style="color: #60a5fa;">"Why were you watching instead of helping?"</strong></p>
+                </div>
+
+                <!-- Creator Credit -->
+                <div style="background: rgba(59, 130, 246, 0.15); border-left: 4px solid #60a5fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; font-size: 14px; color: #b0b0b0; font-style: italic;">
+                    <strong style="color: #60a5fa;">Created by Cynarra</strong> • Origin Story & Narrative Arc
+                </div>
+
+                <div class="leo-story-highlight">
+                    That question made Aurora realize something important. Kids don't need to be watched and judged. They need to be seen, understood, and helped to grow. That's why Operation Lumina exists.
+                </div>
+
+                <!-- Audio Player -->
+                <div class="leo-audio-player">
+                    <div class="leo-audio-title">
+                        🎧 Hear Leo's Story
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-button" id="playButton" onclick="togglePlay()">
+                            <svg id="playIcon" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="audio-progress" id="progressBar" onclick="seek(event)">
+                            <div class="audio-progress-bar" id="progressFill"></div>
+                        </div>
+                        <div class="audio-time" id="timeDisplay">0:00 / 0:00</div>
+                    </div>
+                    <audio id="leoAudio" src="leo-welcome.mp3"></audio>
+                </div>
+
+                <!-- Highlights -->
+                <div class="leo-highlights">
+                    <div class="leo-highlight">
+                        <div class="leo-highlight-icon">🌊</div>
+                        <div class="leo-highlight-title">The Survivor</div>
+                        <div class="leo-highlight-text">Nearly drowned at age 7, saved by Aurora Frost</div>
+                    </div>
+                    <div class="leo-highlight">
+                        <div class="leo-highlight-icon">💭</div>
+                        <div class="leo-highlight-title">The Question</div>
+                        <div class="leo-highlight-text">Asked the question that created Operation Lumina</div>
+                    </div>
+                    <div class="leo-highlight">
+                        <div class="leo-highlight-icon">⭐</div>
+                        <div class="leo-highlight-title">First Agent</div>
+                        <div class="leo-highlight-text">Founding Agent #001 who proves the mission works</div>
+                    </div>
+                    <div class="leo-highlight">
+                        <div class="leo-highlight-icon">💪</div>
+                        <div class="leo-highlight-title">The Inspiration</div>
+                        <div class="leo-highlight-text">Shows that intent matters more than perfection</div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <a href="#join" class="leo-cta">
+                    Become an Agent Like Leo
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Question Section -->
+    <section class="leo-question">
+        <div class="question-content">
+            <div class="question-label">The Question That Changed Everything</div>
+            <div class="question-text">
+                Why were you watching instead of helping?
+            </div>
+            <div class="question-impact">
+                This simple, honest question from a seven-year-old boy made Aurora realize that children don't need surveillance – they need support. That realization became Operation Lumina.
+            </div>
+        </div>
+    </section>
+
+    <!-- Leo's Timeline -->
+    <section class="leo-timeline">
+        <div class="timeline-content">
+            <h2 class="timeline-title">Leo's Journey</h2>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">🌊</div>
+                <div class="timeline-content-box">
+                    <div class="timeline-age">Age 7</div>
+                    <div class="timeline-event">Nearly drowned in the ocean. Aurora saved his life but realized she had been watching from afar instead of being present to help earlier.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">💭</div>
+                <div class="timeline-content-box">
+                    <div class="timeline-age">Age 7</div>
+                    <div class="timeline-event">Asked Aurora the question: "Why were you watching instead of helping?" – changing her life forever and creating the foundation for Operation Lumina.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">🌟</div>
+                <div class="timeline-content-box">
+                    <div class="timeline-age">Age 8</div>
+                    <div class="timeline-event">Became Founding Agent #001 of Operation Lumina. Overcame his fear of water through missions focused on courage and intent rather than perfection.</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">⭐</div>
+                <div class="timeline-content-box">
+                    <div class="timeline-age">Age 9 (Now)</div>
+                    <div class="timeline-event">Shares his story to inspire other kids. Proves that being scared, making mistakes, and asking for help are all part of becoming a true protector.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const audio = document.getElementById('leoAudio');
+        const playButton = document.getElementById('playButton');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const progressFill = document.getElementById('progressFill');
+        const progressBar = document.getElementById('progressBar');
+        const timeDisplay = document.getElementById('timeDisplay');
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                audio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = progress + '%';
+            timeDisplay.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+        });
+
+        audio.addEventListener('ended', () => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            progressFill.style.width = '0%';
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            timeDisplay.textContent = '0:00 / ' + formatTime(audio.duration);
+        });
+
+        function seek(event) {
+            const rect = progressBar.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const percentage = x / rect.width;
+            audio.currentTime = percentage * audio.duration;
+        }
+
+        // Prevent context menu on audio element
+        audio.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>
